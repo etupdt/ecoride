@@ -1,6 +1,7 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        url: 'postgresql://%env(resolve:POSTGRES_USER)%:%env(resolve:POSTGRES_PASSWORD)%@%env(resolve:POSTGRESQL_SERVER)%:%env(resolve:POSTGRESQL_PORT)%/%env(resolve:POSTGRES_DB)%?serverVersion=16&charset=utf8'
+        # url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
