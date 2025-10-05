@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil')]
+    #[Route('/accueil', name: 'accueil')]
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
