@@ -1,0 +1,42 @@
+@startuml covoiturages
+actor visiteur
+activate visiteur #LightBlue
+
+visiteur -> backend : demande liste des covoiturages d'un itineraire
+activate backend #LightBlue
+backend -> BDD : findByDateAndBeginAndEnd
+activate BDD #LightBlue
+BDD --> backend : liste des covoiturages
+deactivate BDD
+backend --> visiteur : envoi des covoiturages
+deactivate backend
+
+visiteur -> backend : demande détail d'un covoiturage
+activate backend #LightBlue
+backend -> BDD : findCovoiturage
+activate BDD #LightBlue
+BDD --> backend : détail du covoiturage
+deactivate BDD
+backend --> visiteur : envoi du détail du covoiturage
+deactivate backend
+
+visiteur -> backend : envoi email 
+activate backend #LightBlue
+backend -> BDD : findUitlisateur
+activate BDD #LightBlue
+BDD --> backend : utilisateur non trouvé
+deactivate BDD
+backend --> visiteur : confirme l'inscription
+deactivate backend
+
+visiteur -> backend : envoi mot de passe
+activate backend #LightBlue
+backend -> BDD : addUtilisateur
+activate BDD #LightBlue
+BDD --> backend : utilisateur créé
+deactivate BDD
+backend --> visiteur : utilisateur connecté
+deactivate backend
+
+deactivate visiteur
+@enduml
