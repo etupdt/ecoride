@@ -1,0 +1,10 @@
+
+$primary: #08603B;
+
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
+
+
+.login-icon {
+    font-size: 40px;
+    color: $primary;
+}
