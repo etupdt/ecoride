@@ -11,7 +11,7 @@ final class AccueilController extends AbstractController
     #[Route('/accueil', name: 'accueil')]
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
         ]);
