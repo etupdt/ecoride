@@ -29,16 +29,19 @@ class RegistrationFormType extends AbstractType
                     'reqired' => true,
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
                 'attr' => [
-                    'class' => 'form-check-input',
+                    'class' => 'form-control',
                 ],
-                'label' => 'Agréer',
-                'label_attr' => ['class' => 'form-check-label'],
-                'mapped' => false,
                 'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                    new NotBlank([
+                        'message' => 'Vous devez saisir un pseudo',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le pseudo doit contenir au minimum {{ limit }} charactères',
+                        'max' => 4096,
                     ]),
                 ],
             ])
@@ -139,6 +142,19 @@ class RegistrationFormType extends AbstractType
                         'min' => 10,
                         'minMessage' => 'La date doit contenir au minimum {{ limit }} charactères',
                         'max' => 4096,
+                    ]),
+                ],
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'label' => 'Agréer.',
+                'label_attr' => ['class' => 'form-check-label'],
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
                     ]),
                 ],
             ])

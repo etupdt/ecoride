@@ -19,26 +19,29 @@
             {# <input type="email" class="form-control" name="_username" id="username" aria-describedby="emailHelp" {{ last_username }} required autofocus> #}
             <small id="emailHelp" class="form-text text-muted">Nous ne diffuserons pas votre email ...</small>
         </div>
-        <div class="form-grou form-check mx-5 my-3">
-            {{ form_row(registrationForm.agreeTerms) }}
+        <div class="form-group mx-5 my-3">
+            {{ form_row(registrationForm.pseudo) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.plainPassword) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.confirmPassword) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.nom) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.prenom) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.date_naissance) }}
         </div>
-        <div class="form-grou mx-5 my-3">
+        <div class="form-group mx-5 my-3">
             {{ form_row(registrationForm.adresse) }}
+        </div>
+        <div class="form-group form-check mx-5 my-3">
+            {{ form_row(registrationForm.agreeTerms) }}
         </div>
 
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
