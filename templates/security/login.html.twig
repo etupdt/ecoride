@@ -39,7 +39,7 @@
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
         <button type="submit" class="btn btn-primary mx-5 mt-3 mb-5">Connexion</button>
         <p class="mx-5 my-3">
-            <a href="{{ path('register') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Pas encore inscrit ?</a>
+            <a href="{{ path('app_register') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Pas encore inscrit ?</a>
         </p>
         {#
             Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
