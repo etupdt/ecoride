@@ -7,17 +7,47 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
-
     {{ form_errors(registrationForm) }}
 
+    <div class="container my-5">
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous inscrire</h1>
+
+        <div class="form-group mx-5 my-3 mt-5">
+            {{ form_row(registrationForm.email) }}
+            {# <input type="email" class="form-control" name="_username" id="username" aria-describedby="emailHelp" {{ last_username }} required autofocus> #}
+            <small id="emailHelp" class="form-text text-muted">Nous ne diffuserons pas votre email ...</small>
+        </div>
+        <div class="form-grou form-check mx-5 my-3">
+            {{ form_row(registrationForm.agreeTerms) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.plainPassword) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.confirmPassword) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.nom) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.prenom) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.date_naissance) }}
+        </div>
+        <div class="form-grou mx-5 my-3">
+            {{ form_row(registrationForm.adresse) }}
+        </div>
+
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <button type="submit" class="btn btn-primary mx-5 mt-3 mb-5">Inscription</button>
+
+        <p class="mx-5 my-3">
+            <a href="{{ path('app_login') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Déjà inscrit ?</a>
+        </p>
+
+    </div>
     {{ form_end(registrationForm) }}
 {% endblock %}
