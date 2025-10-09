@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Entity\User;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,6 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -35,14 +39,13 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir un pseudo',
-                    ]),
-                    new Length([
-                        'min' => 2,
-                        'minMessage' => 'Le pseudo doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
+                    new Assert\NotBlank(message: 'Vous devez saisir un pseudo'),
+                    new Assert\Length(
+                        min: 2,
+                        minMessage: 'Le pseudo doit contenir au minimum {{ limit }} charactères',
+                        max: 50,
+                        maxMessage: 'Le pseudo doit contenir au maximum {{ limit }} charactères',
+                    )
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
@@ -53,14 +56,11 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 16,
-                        'minMessage' => 'Le mot de passe doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
+                    new Assert\NotBlank(message: 'Vous devez saisir un mot de passe'),
+                    new Assert\Length(
+                        min: 8,
+                        minMessage: 'Le mot de passe doit contenir au minimum {{ limit }} charactères',
+                    )
                 ],
             ])
             ->add('confirmPassword', PasswordType::class, [
@@ -71,13 +71,14 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez confirmer votre mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 16,
-                        'minMessage' => 'La confirmation du mot de passe doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
+                    new Assert\NotBlank(message: 'Vous devez confirmer votre mot de passe'),
+                    new Assert\Length(
+                        min: 8,
+                        minMessage: 'Le mot de passe de confirmation doit contenir au minimum {{ limit }} charactères',
+                    ),
+                    new EqualTo([
+                        'propertyPath' => 'parent.all[plainPassword].data',
+                        'message' => 'Le mot de passe n\'est pas confirmé'
                     ]),
                 ],
             ])
@@ -87,14 +88,11 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir un nom',
-                    ]),
-                    new Length([
-                        'min' => 2,
-                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
+                    new Assert\NotBlank(message: 'Vous devez saisir un nom'),
+                    new Assert\Length(
+                        min: 2,
+                        minMessage: 'Le nom doit contenir au minimum {{ limit }} charactères',
+                    )
                 ],
             ])
             ->add('prenom', TextType::class, [
@@ -103,14 +101,11 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir un prénom',
-                    ]),
-                    new Length([
-                        'min' => 2,
-                        'minMessage' => 'Le prénom doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
+                    new Assert\NotBlank(message: 'Vous devez saisir un prénom'),
+                    new Assert\Length(
+                        min: 2,
+                        minMessage: 'Le prénom doit contenir au minimum {{ limit }} charactères',
+                    )
                 ],
             ])
             ->add('adresse', TextType::class, [
@@ -118,32 +113,24 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir une adresse',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'L\'adresse doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
-                ],
             ])
             ->add('date_naissance', DateType::class, [
                 'label' => 'Date de naissance',
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez saisir une date de naissance',
-                    ]),
-                    new Length([
-                        'min' => 10,
-                        'minMessage' => 'La date doit contenir au minimum {{ limit }} charactères',
-                        'max' => 4096,
-                    ]),
-                ],
+            ])
+            ->add('photo', FileType::class, [
+                'label' => 'Photo',
+                'mapped' => false,
+                'required' => false,
+                // 'constraints' => [
+                //     new File(
+                //         maxSize: '1024k',
+                //         extensions: ['pdf'],
+                //         extensionsMessage: 'Veuillez charger une photo',
+                //     )
+                // ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'attr' => [
