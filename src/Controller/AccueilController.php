@@ -13,6 +13,7 @@ final class AccueilController extends AbstractController
     #[Route('/accueil', name: 'accueil')]
     public function index(): Response
     {
+        error_log('==========================> accueil');
 
         /** @var User $user */
         $user = $this->getUser();
@@ -20,7 +21,7 @@ final class AccueilController extends AbstractController
         // $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
-            'user' => $user
+            'email' => isSet($user) ? $user->getEmail() : ''
         ]);
     }
 }
