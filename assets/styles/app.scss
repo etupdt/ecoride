@@ -1,8 +1,11 @@
 
-$primary: #08603B;
+$primary: (#08603B) !default;
 
-@import '../../vendor/twbs/bootstrap/scss/bootstrap';
+@use "./bootstrap/scss/bootstrap";
 
+body {
+    background-color: lightgray;
+}
 
 .login-icon {
     font-size: 40px;

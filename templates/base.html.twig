@@ -3,12 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
             <link rel="stylesheet" href="{{ asset('styles/app.scss') }}">
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
@@ -33,7 +35,21 @@
                         </li>
                     </ul>
                 </div>
-                <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
+                {# <a><i class="bi bi-person-fill login-icon"></i></a> #}
+                {% if email is not defined %}
+                    <a href="#"><i class="bi bi-person-fill login-icon"></i></a>
+                {% elseif email == '' %}
+                    <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
+                {% else %}
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill login-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-item">Compte</a></li>
+                            <li><a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a></li>
+                        </ul>
+                    </div>
+                    <span class="mx-3">{{ email }}</span>
+                {% endif %}
             </div>
         </nav>
         <div class="container-fluid">

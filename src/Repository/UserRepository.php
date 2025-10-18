@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry,)
     {
         parent::__construct($registry, User::class);
     }
@@ -31,6 +31,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    public function findUserByEmailOrUsername(string $usernameOrEmail): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->Where('u.email = :identifier')
+            ->orWhere('u.pseudo = :identifier')
+            ->setParameter('identifier', $usernameOrEmail)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     //    /**
