@@ -29,7 +29,6 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Adresse mail',
                 'attr' => [
                     'class' => 'form-control',
-                    'autofocus' => true,
                     'reqired' => true,
                 ],
             ])
