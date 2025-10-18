@@ -3,10 +3,24 @@
 {% block title %}Hello AccueilController!{% endblock %}
 
 {% block body %}
-<div class="container" style="background-color: red">
-    <div class="d-flex">
-        <img src={{asset('images/road.jpg')}} style="width: 400px" />
-        <img src="{{asset('images/car.jpg')}}"  />
+<div class="container p-5">
+    <divv class="container row">
+        <div id="road" class="rounded-3 col-4"><img class="w-100" src={{asset('images/road.jpg')}} /></div>
+        <divv class="container col">
+            <div id="presentation" class="rounded-3 col-8 p-5 w-100">
+                <p><b>EcoRide – Le covoiturage écologique et économique</b> 🌱🚗</p>
+                <ul>
+                    <li>Réduisez vos frais, partagez vos trajets, et agissez pour la planète.</li>
+                    <li>Avec EcoRide, trouvez facilement un covoiturage en voiture, alliant <b>écologie, économie et simplicité.</b></li>
+                </ul>
+                <p>Notre ambition : devenir la référence du covoiturage pour les voyageurs soucieux de l’environnement.</p>
+                </p>
+            </div>
+            <twig:Itineraire/>
+        </div>
+    </div>
+    <div class="container">
+        <div id="car" class=""><img class="w-100" src="{{asset('images/small-car.jpg')}}"/></div>
     </div>
 </div>
 {% endblock %}

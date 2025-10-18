@@ -15,12 +15,13 @@ import './styles/app.scss';
 
 // console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
-// const $ = require('jquery');
-// require('bootstrap');
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+require('bootstrap');
 
-// $(document).ready(function() {
-//     $('[data-toggle="popover"]').popover();
-// });
+$(document).ready(function() {
+    $('[data-toggle="popover"]').popover();
+});
 
 document.addEventListener('turbo:load', function (e) {
     // this enables bootstrap tooltips globally
