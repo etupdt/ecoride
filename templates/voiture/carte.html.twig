@@ -1,0 +1,11 @@
+
+<div class="carte-voiture card mx-2 my-2">
+  <div class="card-body">
+    <h5 class="card-title">{{ voiture.immatriculation }}</h5>
+    <p class="card-text">{{ voiture.modele }} {{ voiture.marque.libelle }} {{ voiture.couleur }}</p>
+    <p class="card-text">{{ voiture.energie }} CV </p>
+    <p class="card-text">immatriculée le {{ voiture.datePremiereImmatriculation|date("d/m/Y") }}</p>
+    <a href="{{ url('app_update_voiture', {id: voiture.id}) }}" class="btn btn-primary">Modifier</a>
+    <a href="{{ url('app_delete_voiture', {id: voiture.id}) }}" class="btn btn-primary">Supprimer</a>
+  </div>
+</div>

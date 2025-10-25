@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voitures{% endblock %}
+
+{% block body %}
+
+    {{ form_errors(voitureForm) }}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">{% if utilisateur.voitures|length == 0 %}Ajoutez une voiture pour devenir chauffeur{% else %}Vos voitures{% endif %}</h1>
+
+    {{ form_start(voitureForm) }}
+
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.immatriculation) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.marque) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.modele) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.energie) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.couleur) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(voitureForm.datePremiereImmatriculation) }}
+            </div>
+
+            <div class="d-flex mx-5 mt-3 mb-5">
+                <button type="submit" class="btn btn-primary">{{ action }}</button>
+                <a href="{{ url('app_voitures') }}" class="btn btn-primary mx-2">Abandonner</a>
+            </div>
+
+    {{ form_end(voitureForm) }}
+
+    </div>
+
+{% endblock %}

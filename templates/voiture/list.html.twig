@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voitures{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">voitures</h1>
+
+        <div class="voitures container row">
+            {% include 'voiture/new.html.twig' %}
+            {% for voiture in voitures %}      
+                {% include 'voiture/carte.html.twig' with {'voiture': voiture} only %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
