@@ -16,7 +16,28 @@
                 <p>Notre ambition : devenir la référence du covoiturage pour les voyageurs soucieux de l’environnement.</p>
                 </p>
             </div>
-            <twig:Itineraire/>
+            {# <twig:Itineraire/> #}
+            <form>
+                <div class="input-group mb-3">
+
+                    <span class="input-group-text">Choisissez un itinéraire</span>
+
+                    <label class="input-group-text" for="_depart">Départ</label>
+                    <input type="text" class="form-control"  list="list-ville" id="depart" name="depart" value="{{ depart }}"/>
+
+                    <label class="input-group-text" for="_arrivee">Arrivée</label>
+                    <input type="text" class="form-control"  list="list-ville" id="arrivee" name="arrivee" value="{{ arrivee }}"/>
+
+                    <datalist id="list-ville">
+                        {% for ville in villes %}      
+                            <option data="{{ ville.id }}" value="{{ ville.libelle }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <button class="btn btn-outline-primary" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
+
+                </div>
+            </form>
         </div>
     </div>
     <div class="container">
