@@ -25,30 +25,38 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav m-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('accueil') }}">Accueil</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url('accueil', parameters = {depart: '', arrivee: ''}) }}">Accueil</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Covoiturage</a>
+                            <a class="nav-link" href="#">Covoiturage</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('app_marques') }}" class="dropdown-item">Marques</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
                 {# <a><i class="bi bi-person-fill login-icon"></i></a> #}
-                {% if email is not defined %}
-                    <a href="#"><i class="bi bi-person-fill login-icon"></i></a>
-                {% elseif email == '' %}
+                {% if utilisateur is not defined %}
+                    <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
+                {% elseif utilisateur == null %}
                     <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
                 {% else %}
                     <div class="dropdown">
                         <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill login-icon"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Compte</a></li>
+                            <li><a href="{{ path('app_donnees') }}" class="dropdown-item">Données d'identification</a></li>
+                            <li><a href="{{ path('app_compte') }}" class="dropdown-item">Compte</a></li>
+                            <li><a href="{{ path('app_voitures') }}" class="dropdown-item">Devenir chauffeur</a></li>
                             <li><a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a></li>
                         </ul>
                     </div>
-                    <span class="mx-3">{{ email }}</span>
+                    <span class="mx-3">{% if utilisateur != null %}{{ utilisateur.email }}{% endif %}</span>
                 {% endif %}
             </div>
         </nav>

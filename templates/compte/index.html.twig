@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container my-5">
+
+        {{ form_start(userForm) }}
+
+            {% include 'compte/compte.html.twig' %}
+
+            <div class="d-flex mx-5 mt-3 mb-5">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{{ url('accueil') }}" class="btn btn-primary mx-2">Abandonner</a>
+            </div>
+
+        {{ form_end(userForm) }}
+
+    </div>
+
+{% endblock %}
