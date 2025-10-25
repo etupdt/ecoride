@@ -18,119 +18,16 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\EqualTo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\File;
+use App\EventSubscriber\FormDonneesSubscriber;
+use App\EventSubscriber\FormCompteSubscriber;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                'label' => 'Adresse mail',
-                'attr' => [
-                    'class' => 'form-control',
-                    'reqired' => true,
-                ],
-            ])
-            ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Vous devez saisir un pseudo'),
-                    new Assert\Length(
-                        min: 2,
-                        minMessage: 'Le pseudo doit contenir au minimum {{ limit }} charactères',
-                        max: 50,
-                        maxMessage: 'Le pseudo doit contenir au maximum {{ limit }} charactères',
-                    )
-                ],
-            ])
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'mapped' => false,
-                'attr' => [
-                    'autocomplete' => 'new-password',
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Vous devez saisir un mot de passe'),
-                    new Assert\Length(
-                        min: 8,
-                        minMessage: 'Le mot de passe doit contenir au minimum {{ limit }} charactères',
-                    )
-                ],
-            ])
-            ->add('confirmPassword', PasswordType::class, [
-                'label' => 'Confirmation du mot de passe',
-                'mapped' => false,
-                'attr' => [
-                    'autocomplete' => 'new-password',
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Vous devez confirmer votre mot de passe'),
-                    new Assert\Length(
-                        min: 8,
-                        minMessage: 'Le mot de passe de confirmation doit contenir au minimum {{ limit }} charactères',
-                    ),
-                    new EqualTo([
-                        'propertyPath' => 'parent.all[plainPassword].data',
-                        'message' => 'Le mot de passe n\'est pas confirmé'
-                    ]),
-                ],
-            ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Vous devez saisir un nom'),
-                    new Assert\Length(
-                        min: 2,
-                        minMessage: 'Le nom doit contenir au minimum {{ limit }} charactères',
-                    )
-                ],
-            ])
-            ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Vous devez saisir un prénom'),
-                    new Assert\Length(
-                        min: 2,
-                        minMessage: 'Le prénom doit contenir au minimum {{ limit }} charactères',
-                    )
-                ],
-            ])
-            ->add('adresse', TextType::class, [
-                'label' => 'Adresse',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('date_naissance', DateType::class, [
-                'label' => 'Date de naissance',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('photo', FileType::class, [
-                'label' => 'Photo',
-                'mapped' => false,
-                'required' => false,
-                // 'constraints' => [
-                //     new File(
-                //         maxSize: '1024k',
-                //         extensions: ['pdf'],
-                //         extensionsMessage: 'Veuillez charger une photo',
-                //     )
-                // ],
-            ])
+            ->addEventSubscriber(new FormDonneesSubscriber())
+            ->addEventSubscriber(new FormCompteSubscriber())
             ->add('agreeTerms', CheckboxType::class, [
                 'attr' => [
                     'class' => 'form-check-input',

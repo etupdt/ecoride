@@ -5,6 +5,8 @@
 * which should already be in your base.html.twig.
 */
 import './styles/app.scss';
+import './styles/marques.scss';
+import './styles/voitures.scss';
 // import './bootstrap.js';
 
 // import 'bootstrap';
