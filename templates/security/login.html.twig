@@ -20,15 +20,15 @@
 
         <div class="form-group mx-5 my-3 mt-5">
             <label for="_username">Pseudo ou adresse mail</label>
-            <input type="text" class="form-control" name="_username" id="username" aria-describedby="emailHelp" {{ last_username }} required autofocus>
+            <input type="text" class="form-control" name="_username" id="_username" aria-describedby="emailHelp" {{ last_username }} required autofocus>
             <small id="emailHelp" class="form-text text-muted">Nous ne diffuserons pas votre email ...</small>
         </div>
         <div class="form-grou mx-5 my-3">
             <label for="_password">Mot de passe</label>
-            <input type="password" class="form-control" name="_password" id="password">
+            <input type="password" class="form-control" name="_password" id="_password">
         </div>
         <div class="form-group form-check mx-5 my-3">
-            <input type="checkbox" class="form-check-input" name="_remenber_me" id="remenber_me">
+            <input type="checkbox" class="form-check-input" name="_remenber_me" id="_remenber_me">
             <label class="form-check-label" for="_remenber_me">Se souvenir de moi</label>
         </div>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
