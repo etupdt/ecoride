@@ -22,9 +22,6 @@ class Voiture
     #[ORM\Column(length: 20)]
     private ?string $immatriculation = null;
 
-    #[ORM\Column(length: 4)]
-    private ?string $energie = null;
-
     #[ORM\Column(length: 50)]
     private ?string $couleur = null;
 
@@ -44,6 +41,10 @@ class Voiture
     #[ORM\ManyToOne(inversedBy: 'voitures')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $chauffeur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'voitures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Energie $energie = null;
 
     public function __construct()
     {
@@ -75,18 +76,6 @@ class Voiture
     public function setImmatriculation(string $immatriculation): static
     {
         $this->immatriculation = $immatriculation;
-
-        return $this;
-    }
-
-    public function getEnergie(): ?string
-    {
-        return $this->energie;
-    }
-
-    public function setEnergie(string $energie): static
-    {
-        $this->energie = $energie;
 
         return $this;
     }
@@ -165,6 +154,18 @@ class Voiture
     public function setChauffeur(?User $chauffeur): static
     {
         $this->chauffeur = $chauffeur;
+
+        return $this;
+    }
+
+    public function getEnergie(): ?Energie
+    {
+        return $this->energie;
+    }
+
+    public function setEnergie(?Energie $energie): static
+    {
+        $this->energie = $energie;
 
         return $this;
     }
