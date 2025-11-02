@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Energies{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">Energies</h1>
+
+        <div class="energies container row">
+            {% include 'energie/new.html.twig' %}
+            {% for energie in energies %}      
+                {% include 'energie/carte.html.twig' with {'energie': energie} only %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
