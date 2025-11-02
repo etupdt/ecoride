@@ -22,6 +22,11 @@ final class CompteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $fichier = $form['photo']->getData();
+            $nomFichier = uniqid().'.'.$fichier->guessExtension();
+            $fichier->move("photos/", $nomFichier);
+            $user->setPhoto($nomFichier);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
