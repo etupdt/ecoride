@@ -1,0 +1,126 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail covoiturage{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1>{{ covoiturage.dateDepart|format_datetime('full', 'none', locale: 'en') }}</h1>
+
+        <div class="d-flex">
+
+            <div class="col-8 p-4">
+
+                <div class="card mb-3 p-0">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div style="padding: 0px 15px 0px 0px">
+                                <p class="card-text"><b>{{ covoiturage.heureDepart|date("H:i") }}</b></p>
+                                <p class="card-text"><b>{{ covoiturage.heureArrivee|date("H:i") }}</b></p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-between">
+                                <div style="border: 2px black solid; border-radius: 50%; width: 10px; height: 10px; margin-top: 0.5rem"></div>
+                                <div style="border: 2px black solid; margin: 0 3px; width: 0px; height: 1.9rem"></div>
+                                <div style="border: 2px black solid; border-radius: 50%; width: 10px; height: 10px; margin-bottom: 1rem"></div>
+                            </div>
+                            <div style="padding: 0px 0px 0px 15px">
+                                <p class="card-text"><b>{{ covoiturage.lieuDepart.libelle }}</b></p>
+                                <p class="card-text"><b>{{ covoiturage.lieuArrivee.libelle }}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3 p-0">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="/photos/{{ covoiturage.voiture.chauffeur.photo }}" class="img-fluid" alt="{{ covoiturage.voiture.chauffeur.pseudo }}" style="height: 140px; width: aauto;">
+                            <p class="card-text" style="padding: 8px"><b>{{ covoiturage.voiture.chauffeur.pseudo }}</b></p>
+                        </div>
+                        <hr>
+                        <p class="card-text">{{ covoiturage.voiture.modele }} {{ covoiturage.voiture.marque.libelle }} {{ covoiturage.voiture.couleur }} {{ covoiturage.voiture.energie.libelle }}</p>
+                        <p class="card-text">Il reste {{ covoiturage.nbPlace }} place(s)</p>
+                        <input type="checkbox" id="ecologique" name="ecologique" {% if covoiturage.voiture.energie.ecologique %}checked{% endif %} disabled />
+                        <label for="ecologique">Ecologique</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex flex-column col-4 p-4">
+
+                <div class="card mb-3 p-0">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div style="padding: 0px 15px 0px 0px">
+                                <p class="card-text"><b>{{ covoiturage.heureDepart|date("H:i") }}</b></p>
+                                <p class="card-text"><b>{{ covoiturage.heureArrivee|date("H:i") }}</b></p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-between">
+                                <div style="border: 2px black solid; border-radius: 50%; width: 10px; height: 10px; margin-top: 0.5rem"></div>
+                                <div style="border: 2px black solid; margin: 0 3px; width: 0px; height: 1.9rem"></div>
+                                <div style="border: 2px black solid; border-radius: 50%; width: 10px; height: 10px; margin-bottom: 1rem"></div>
+                            </div>
+                            <div style="padding: 0px 0px 0px 15px">
+                                <p class="card-text"><b>{{ covoiturage.lieuDepart.libelle }}</b></p>
+                                <p class="card-text"><b>{{ covoiturage.lieuArrivee.libelle }}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-3 p-0">
+                    <div class="d-flex justify-content-between p-2">
+                        <p class="card-text"><b>1 passager</b></p>
+                        <p class="card-text"><b>{{ covoiturage.prixPersonne }} crédits</b></p>
+                    </div>
+                </div>
+                    
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalParticiper">participer</button>
+
+            </div>
+
+        </div>
+
+        <a href="{{ url('app_covoiturages') }}" class="btn btn-primary">Retour</a>
+
+    </div>
+
+    <div class="modal fade" id="modalParticiper" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Validation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Vous allez participer au covoiturage {{ covoiturage.lieuDepart.libelle }} => {{ covoiturage.lieuArrivee.libelle }} du {{ covoiturage.dateDepart|format_datetime('full', 'none', locale: 'en') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary" data-bs-target="#modalValidation" data-bs-toggle="modal">Continuer</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalValidation" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Paiement</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Votre solde va être débité de {{ covoiturage.prixPersonne }} crédit(s) !
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button id="payer" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Payer</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
