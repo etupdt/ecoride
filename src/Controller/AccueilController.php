@@ -3,22 +3,41 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\User;
+use App\Entity\Covoiturage;
 use App\Service\ItineraireService;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use App\Form\ItineraireFormType;
 
 final class AccueilController extends AbstractController
 {
     #[Route('/', name: 'racine')]
     #[Route('/accueil', name: 'accueil')]
-    public function index(#[MapQueryParameter] ?string $depart='',#[MapQueryParameter] ?string $arrivee='', ItineraireService $itineraireService): Response
+    public function index(
+        Request $request, 
+        ItineraireService $itineraireService, 
+    ): Response
     {
 
-        error_log('==========================> /');
+        $covoiturage = new Covoiturage();
 
-        error_log('==========================> supports'.$depart.'   '.$arrivee);
+        $form = $this->createForm(ItineraireFormType::class, $covoiturage, [
+            'action' => $this->generateUrl('app_itineraires'),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        
+        // if ($form->isSubmitted() && $form->isValid()) {
+
+        //     $lieu_depart = $form->get('lieu_depart')->getData();
+        //     $lieu_arrivee = $form->get('lieu_arrivee')->getData();
+
+        //     return $this->redirectToRoute('app_itineraires', ['request' => $request]);
+
+        // }
 
         $villes = $itineraireService->getVilles();
 
@@ -29,8 +48,7 @@ final class AccueilController extends AbstractController
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
             'utilisateur' => $user,
-            'depart' => $depart,
-            'arrivee' => $arrivee,
+            'covoiturageForm' => $form,
             'villes' => $villes
         ]);
 

@@ -16,3 +16,4 @@
     <div class="form-group mx-5 my-3">
         {{ form_row(userForm.photo) }}
     </div>
+        <img id="compte_image" src="photos/{% if utilisateur is defined and utilisateur != null %}{{ utilisateur.photo }}{% else %}0.png{% endif %}" height="140px"/>

@@ -75,7 +75,7 @@ final class MarqueController extends AbstractController
     }
     
     #[Route('/marque/c', name: 'app_create_marque')]
-    public function new(Request $request, MarqueRepository $marqueRepository, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         
         $marque = new Marque();
