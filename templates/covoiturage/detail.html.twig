@@ -8,6 +8,7 @@
     <div class="container my-5">
 
         <h1>{{ covoiturage.dateDepart|format_datetime('full', 'none', locale: 'en') }}</h1>
+        <p id="covoiturage_id" class="card-text">{{ covoiturage.id  }}</p>
 
         <div class="d-flex">
 
@@ -78,13 +79,27 @@
                     </div>
                 </div>
                     
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalParticiper">participer</button>
+                {% if participation != null %}
+                    {% if participation.statut == 'inscrit' %}
+                        {% if covoiturage.statut == 'arrivé' %}
+                            <a href="{{ url('app_valider_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Valider le voyage</a>
+                        {% else %}
+                            <a href="{{ url('app_annuler_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Annuler</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {% if user is not defined or user != covoiturage.voiture.chauffeur %}
+                        <button id="bouton_action" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalParticiper">
+                            participer
+                        </button>
+                    {% endif %}
+                {% endif %}
 
             </div>
 
         </div>
 
-        <a href="{{ url('app_covoiturages') }}" class="btn btn-primary">Retour</a>
+        <a href="{{ url('app_itineraires') }}" class="btn btn-primary">Retour</a>
 
     </div>
 
@@ -105,6 +120,9 @@
             </div>
         </div>
     </div>
+
+    {{ form_start(detailForm) }}
+
     <div class="modal fade" id="modalValidation" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -118,9 +136,12 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button id="payer" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Payer</button>
+                {# <a href="{{ url('app_action_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary mx-2">Payer</a> #}
             </div>
             </div>
         </div>
     </div>
+
+    {{ form_end(detailForm) }}
 
 {% endblock %}
