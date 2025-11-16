@@ -12,34 +12,21 @@ body {
     color: $primary;
 }
 
-img {
-
-    border-radius: 10px;
-
-
-}
-
-.accueil {
-
-
+.login-image {
+    height: 40px;
+    border-radius: 50%;
 }
 
 #road {
 
-    img {
-    }
+    border-radius: 10px;
 
 }
 
 #car {
 
-    transform: translate(0px, -150px);
-
-}
-
-#presentation {
-
-    img {
-    }
+    // transform: translate(0px, -150px);
+    // z-index : 1;
+    border-radius: 10px;
 
 }

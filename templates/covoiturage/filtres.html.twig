@@ -1,0 +1,25 @@
+
+<div class="card p-0 carte-filtres">
+
+    <div class="card-body ">
+
+        <h3 class="card-title">Filtres</h3>
+
+            <div class="form-group mx-2 my-3">
+                {{ form_row(covoiturageForm.ecologique) }}
+            </div>
+            <div class="form-group mx-2 my-3">
+                {{ form_row(covoiturageForm.prix_personne) }}
+            </div>
+            <div class="form-group mx-2 my-3">
+                {{ form_row(covoiturageForm.duree_voyage) }}
+            </div>
+            <div class="form-group mx-2 my-3">
+                {{ form_row(covoiturageForm.note_chauffeur) }}
+            </div>
+
+            <button class="btn btn-outline-primary" type="submit" id="itineraire-submit">Filtrer</button>
+
+    </div>
+
+</div>

@@ -8,7 +8,7 @@
 
     <div class="container my-5">
 
-        <h1 class="h3 mb-3 font-weight-normal">{% if utilisateur.voitures|length == 0 %}Ajoutez une voiture pour devenir chauffeur{% else %}Vos voitures{% endif %}</h1>
+        <h1 class="h3 mb-3 font-weight-normal">{% if user.voitures|length == 0 %}Ajoutez une voiture pour devenir chauffeur{% else %}Vos voitures{% endif %}</h1>
 
     {{ form_start(voitureForm) }}
 

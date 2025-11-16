@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container my-5">
+    {{ form_start(userForm) }}
+
+        <h1 class="h3 mb-3 font-weight-normal">Saisissez les données de l'utilisateur</h1>
+
+        {{ form_start(userForm) }}
+
+            {% include 'donnees/donnees.html.twig' %}
+            {% include 'compte/compte.html.twig' %}
+
+            <div class="form-group form-check mx-5 my-3">
+                {{ form_row(userForm.suspendu) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mx-5 mt-3 mb-5">Enregistrer</button>
+
+        {{ form_end(userForm) }}
+
+    </div>
+
+{% endblock %}

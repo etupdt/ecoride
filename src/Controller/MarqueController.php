@@ -38,7 +38,7 @@ final class MarqueController extends AbstractController
 
         return $this->render('marque/list.html.twig', [
             'controller_name' => 'MarqueController',
-            'utilisateur' => $user,
+            'user' => $user,
             'marques' => $marques
         ]);
 
@@ -68,14 +68,14 @@ final class MarqueController extends AbstractController
         return $this->render('marque/index.html.twig', [
             'controller_name' => 'MarqueController',
             'marqueForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Modifier',
         ]);
 
     }
     
     #[Route('/marque/c', name: 'app_create_marque')]
-    public function new(Request $request, MarqueRepository $marqueRepository, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         
         $marque = new Marque();
@@ -90,7 +90,7 @@ final class MarqueController extends AbstractController
 
             return $this->redirectToRoute('app_marques');
 
-    }
+        }
 
         /** @var User $user */
         $user = $this->getUser();
@@ -98,7 +98,7 @@ final class MarqueController extends AbstractController
         return $this->render('marque/index.html.twig', [
             'controller_name' => 'MarqueController',
             'marqueForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Créer',
         ]);
         

@@ -14,8 +14,8 @@ use Doctrine\ORM\EntityManagerInterface;
 final class VoitureController extends AbstractController
 {
 
-        #[Route('/voiture/d/{id}', name: 'app_delete_voiture')]
-    public function delete(int $id, Request $request, VoitureRepository $voitureRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/voiture/d/{id}', name: 'app_delete_voiture')]
+    public function delete(int $id, VoitureRepository $voitureRepository, EntityManagerInterface $entityManager): Response
     {
 
         $voiture = $voitureRepository->find($id);
@@ -27,18 +27,18 @@ final class VoitureController extends AbstractController
 
     }
 
-    #[Route('/voitures', name: 'app_voitures', methods: ['GET'])]
+    #[Route('/voitures', name: 'app_voitures')]
     public function voitures(Request $request, VoitureRepository $voitureRepository): Response
     {
-
-        $voitures = $voitureRepository->findAll();
 
         /** @var User $user */
         $user = $this->getUser();
 
+        $voitures = $voitureRepository->findBy(['chauffeur' => $user]);
+
         return $this->render('voiture/list.html.twig', [
             'controller_name' => 'VoitureController',
-            'utilisateur' => $user,
+            'user' => $user,
             'voitures' => $voitures
         ]);
 
@@ -68,7 +68,7 @@ final class VoitureController extends AbstractController
         return $this->render('voiture/index.html.twig', [
             'controller_name' => 'VoitureController',
             'voitureForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Modifier',
         ]);
 
@@ -100,7 +100,7 @@ final class VoitureController extends AbstractController
         return $this->render('voiture/index.html.twig', [
             'controller_name' => 'VoitureController',
             'voitureForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Créer',
         ]);
         

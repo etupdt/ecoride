@@ -29,14 +29,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
     public function __construct(
         private UserRepository $userRepository,
-         private UrlGeneratorInterface $urlGenerator,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
     // abstract protected function getLoginUrl(Request $request): string;
-     function getLoginUrl(Request $request): string {
-        return '/login';
-     }
+    function getLoginUrl(Request $request): string {
+        return $request->getUri();
+    }
 
     /**
      * Called on every request to decide if this authenticator should be
@@ -79,7 +79,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('accueil'));
+        $user = $token->getUser();
+
+        if (in_array('ROLE_SUSPENDU', $user->getRoles())) {
+            $url = $this->getLoginUrl($request);
+            return new RedirectResponse($url);
+        }
+
+        return new RedirectResponse($this->getTargetPath($request->getSession(), $firewallName));
 
     }
 

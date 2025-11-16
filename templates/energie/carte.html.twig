@@ -1,0 +1,8 @@
+<div class="carte-energie card mx-2 my-2">
+	<div class="card-body">
+		<h5 class="card-title">{{ energie.libelle }}</h5>
+		<p class="card-text">{% if energie.ecologique %}écologique{% else %}non écologique{% endif %}</p>
+		<a href="{{ url('app_update_energie', {id: energie.id}) }}" class="btn btn-primary">Modifier</a>
+		<a href="{{ url('app_delete_energie', {id: energie.id}) }}" class="btn btn-primary">Supprimer</a>
+	</div>
+</div>

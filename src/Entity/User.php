@@ -69,9 +69,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Voiture::class, mappedBy: 'chauffeur', orphanRemoval: true)]
     private Collection $voitures;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $note = null;
+
+    /**
+     * @var Collection<int, Participation>
+     */
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'passager', orphanRemoval: true)]
+    private Collection $participations;
+
     public function __construct()
     {
         $this->voitures = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -275,6 +285,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($voiture->getChauffeur() === $this) {
                 $voiture->setChauffeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(?int $note): static
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): static
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setPassager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): static
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getPassager() === $this) {
+                $participation->setPassager(null);
             }
         }
 

@@ -17,10 +17,16 @@ final class CompteController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
+        
         $form = $this->createForm(CompteFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $fichier = $form['photo']->getData();
+            $nomFichier = uniqid().'.'.$fichier->guessExtension();
+            $fichier->move("photos/", $nomFichier);
+            $user->setPhoto($nomFichier);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -31,7 +37,7 @@ final class CompteController extends AbstractController
 
         return $this->render('compte/index.html.twig', [
             'controller_name' => 'CompteController',
-            'utilisateur' => $user,
+            'user' => $user,
             'userForm' => $form,
         ]);
 

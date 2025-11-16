@@ -6,7 +6,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -57,18 +56,6 @@ class FormCompteSubscriber implements EventSubscriberInterface
                 'attr' => [
                     'class' => 'form-control',
                 ],
-            ])
-            ->add('photo', FileType::class, [
-                'label' => 'Photo',
-                'mapped' => false,
-                'required' => false,
-                // 'constraints' => [
-                //     new File(
-                //         maxSize: '1024k',
-                //         extensions: ['pdf'],
-                //         extensionsMessage: 'Veuillez charger une photo',
-                //     )
-                // ],
             ])
         ;
     

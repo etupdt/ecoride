@@ -1,0 +1,17 @@
+
+    <span class="input-group-text">Choisissez un itinéraire</span>
+
+    <label class="input-group-text" for="_date">Date</label>
+    {{ form_widget(covoiturageForm.date_filtre) }}
+
+    <label class="input-group-text" for="_depart">Départ</label>
+    {{ form_widget(covoiturageForm.lieu_depart) }}
+
+    <label class="input-group-text" for="_arrivee">Arrivée</label>
+    {{ form_widget(covoiturageForm.lieu_arrivee) }}
+
+    <datalist id="list-ville">
+        {% for ville in villes %}      
+            <option data="{{ ville.id }}" value="{{ ville.libelle }}"></option>
+        {% endfor %}
+    </datalist>

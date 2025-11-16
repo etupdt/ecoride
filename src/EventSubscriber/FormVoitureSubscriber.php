@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use App\Entity\Energie;
 use App\Entity\Marque;
 
 class FormVoitureSubscriber implements EventSubscriberInterface
@@ -27,6 +28,10 @@ class FormVoitureSubscriber implements EventSubscriberInterface
                 'attr' => [
                     'class' => 'form-control',
                 ],
+            ])
+            ->add('energie', EntityType::class, [
+                'class' => Energie::class,
+                'choice_label' => 'libelle',
             ])
             ->add('marque', EntityType::class, [
                 'class' => Marque::class,

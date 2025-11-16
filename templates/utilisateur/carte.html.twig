@@ -1,0 +1,7 @@
+<div class="carte-utilisateur card mx-2 my-2">
+  <div class="card-body">
+    <h5 class="card-title">{{ utilisateur.email }}</h5>
+    <a href="{{ url('app_update_utilisateur', {id: utilisateur.id}) }}" class="btn btn-primary">Modifier</a>
+    <a href="{{ url('app_delete_utilisateur', {id: utilisateur.id}) }}" class="btn btn-primary">Supprimer</a>
+  </div>
+</div>

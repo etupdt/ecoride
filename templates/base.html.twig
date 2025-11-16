@@ -3,16 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-            {# <link rel="stylesheet" href="{{ asset('styles/app.scss') }}"> #}
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         {% endblock %}
+
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
@@ -25,38 +28,52 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav m-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url('accueil', parameters = {depart: '', arrivee: ''}) }}">Accueil</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url('accueil') }}">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Covoiturage</a>
+                            <a class="nav-link" href="{{ path('app_itineraires') }}">Covoiturage</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('app_marques') }}" class="dropdown-item">Marques</a></li>
-                            </ul>
-                        </li>
+                        {% if is_granted('ROLE_EMPLOYEE') %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                                <ul class="dropdown-menu">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{ path('app_energies') }}" class="dropdown-item">Energies</a></li>
+                                        <li><a href="{{ path('app_marques') }}" class="dropdown-item">Marques</a></li>
+                                        <li><a href="{{ path('app_utilisateurs') }}" class="dropdown-item">Utilisateurs</a></li>
+                                        <li><a href="{{ path('app_statistiques') }}" class="dropdown-item">Statistiques</a></li>
+                                    {% elseif is_granted('ROLE_EMPLOYEE') %}
+                                        <li><a href="{{ path('app_avis') }}" class="dropdown-item">Avis</a></li>
+                                        <li><a href="{{ path('app_contentieux') }}" class="dropdown-item">Contentieux</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 {# <a><i class="bi bi-person-fill login-icon"></i></a> #}
-                {% if utilisateur is not defined %}
+                {% if user is not defined %}
                     <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
-                {% elseif utilisateur == null %}
+                {% elseif user == null %}
                     <a href="{{ path('app_login') }}"><i class="bi bi-person-fill login-icon"></i></a>
                 {% else %}
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill login-icon"></i></a>
+                        <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="login-image" src="{{ asset('photos/' ~ user.photo) }}" style="height: 40px; border-radius: 50%"/>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('app_donnees') }}" class="dropdown-item">Données d'identification</a></li>
                             <li><a href="{{ path('app_compte') }}" class="dropdown-item">Compte</a></li>
+                            <li><a href="{{ path('app_participations') }}" class="dropdown-item">Mes participations à des covoiturages</a></li>
+                            <li><a href="{{ url('app_covoiturages') }}" class="dropdown-item">Mes propositions de covoiturage</a></li>
                             <li><a href="{{ path('app_voitures') }}" class="dropdown-item">Devenir chauffeur</a></li>
                             <li><a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a></li>
                         </ul>
                     </div>
-                    <span class="mx-3">{% if utilisateur != null %}{{ utilisateur.email }}{% endif %}</span>
+                    <span class="mx-3">{% if user != null %}{{ user.email }}{% endif %}</span>
                 {% endif %}
             </div>
         </nav>

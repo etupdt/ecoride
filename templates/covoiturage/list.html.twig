@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cooitureags{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">{{ type }}</h1>
+
+        {{ form_start(covoiturageForm) }}
+            
+            <div class="container p-0">
+
+                <div class="input-group mb-3
+                0">
+
+                    {% include 'covoiturage/itineraire.html.twig' with {'villes': villes} %}
+
+                    <button class="btn btn-outline-primary" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
+
+                </div>
+
+                <div class="d-flex">
+
+                    {% if not nouveau %}
+
+                        <div class="p-3 col-3">
+                        
+                            {% include 'covoiturage/filtres.html.twig' %}
+
+                        </div>
+
+                    {% endif %}
+
+                    <div class="p-3 {% if nouveau %}col-12{% else %}col-9{% endif %}">
+
+                        {% if nouveau %}
+                            {% include 'covoiturage/new.html.twig' %}
+                        {% endif %}
+
+                        {% for covoiturage in covoiturages %}
+                            {% include 'covoiturage/carte.html.twig' %}
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {{ form_end(covoiturageForm) }}
+
+    </div>
+
+{% endblock %}
