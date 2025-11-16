@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\ParticipationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ParticipationRepository::class)]
+#[ORM\UniqueConstraint(name: 'participation_unique_index', columns: ['passager_id', 'covoiturage_id'])]
 class Participation
 {
     #[ORM\Id]

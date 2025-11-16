@@ -44,7 +44,7 @@ class CovoiturageFormType extends AbstractType
                 ],
             ])
             ->add('heure_arrivee')
-            ->add('statut')
+            // ->add('statut')
             ->add('nb_place')
             ->add('prix_personne', IntegerType::class)
             ->add('voiture', EntityType::class, [

@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Covoiturage;
 use App\Repository\CovoiturageRepository;
 use App\Repository\VilleRepository;
+use App\Repository\ParticipationRepository;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Entity\Participation;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,6 +18,7 @@ class ItineraireService
     public function __construct(
         private CovoiturageRepository $covoiturageRepository,
         private VilleRepository $villeRepository,
+        private ParticipationRepository $participationRepository,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -74,6 +78,7 @@ class ItineraireService
         ?int $prix_personne,
         ?DateTime $duree_voyage,
         ?int $note_chauffeur,
+        ?User $chauffeur
     ): array
     {
 
@@ -84,10 +89,34 @@ class ItineraireService
             $ecologique, 
             $prix_personne, 
             $duree_voyage === null ? '00:00' : $duree_voyage->format('H:i'), 
-            $note_chauffeur === null ? -1 : $note_chauffeur
+            $note_chauffeur === null ? -1 : $note_chauffeur,
+            $chauffeur
         );
 
         return $covoiturages;
+
+    }
+
+    public function gatParticipations(
+        User $passager
+    ): array
+    {
+
+        $covoiturages = $this->covoiturageRepository->findCovoituragesByParticipation($passager);
+
+        return $covoiturages;
+
+    }
+
+    public function getCovoituragesByJour(int $nbJ, int $nbJAvant) 
+    {
+
+        $date1 = new Datetime();
+        $date1->modify(''.(-$nbJAvant).' day');
+        $date2 = new Datetime();
+        $date2->modify(''.($nbJ - $nbJAvant).' day');
+
+        return $this->covoiturageRepository->findCovoituragesByJour($date1, $date2);
 
     }
 

@@ -7,12 +7,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\CovoiturageRepository;
-use App\Form\CovoiturageFormType;
-use App\Form\FiltresFormType;
+use App\Repository\ParticipationRepository;
 use App\Entity\Covoiturage;
+use App\Entity\Participation;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\ItineraireService;
+use App\Form\CovoiturageFormType;
+use App\Form\FiltresFormType;
 use App\Form\ItineraireFormType;
+use App\Form\DetailFormType;
 
 final class CovoiturageController extends AbstractController
 {
@@ -30,26 +33,108 @@ final class CovoiturageController extends AbstractController
 
     }
 
+    #[Route('/covoiturage/s/{id}', name: 'app_annuler_covoiturage')]
+    public function annuler(
+        int $id, 
+        CovoiturageRepository $covoiturageRepository, 
+        ParticipationRepository $participationRepository, 
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $covoiturage = $covoiturageRepository->find($id);
+        $participation = $participationRepository->findOneBy([
+            'covoiturage' => $covoiturage,
+            'passager' => $user
+        ]);
+
+        $entityManager->remove($participation);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_participations');
+
+    }
+
+    #[Route('/covoiturage/m/{id}', name: 'app_statut_covoiturage')]
+    public function statut(
+        int $id, 
+        CovoiturageRepository $covoiturageRepository, 
+        ParticipationRepository $participationRepository, 
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $covoiturage = $covoiturageRepository->find($id);
+
+        $statut = $covoiturage->getStatut();
+
+        if ($statut === 'planifié') {
+            $covoiturage->setStatut('démarré');
+        } elseif ($statut === 'démarré') {
+            $covoiturage->setStatut('arrivé');
+        } elseif ($statut = 'arrivé') {
+            // send mail
+        }
+        
+        $entityManager->persist($covoiturage);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_covoiturages');
+
+    }
+
     #[Route('/covoiturage/v/{id}', name: 'app_detail_covoiturage')]
     public function detail(
         int $id, 
         Request $request, 
+        EntityManagerInterface $entityManager,
         CovoiturageRepository $covoiturageRepository, 
-        EntityManagerInterface $entityManager
-        ): Response
+        ParticipationRepository $participationRepository, 
+    ): Response
     {
 
-        $covoiturage = $covoiturageRepository->find($id);
-        
         /** @var User $user */
         $user = $this->getUser();
+        
+        $covoiturage = $covoiturageRepository->find($id);
+        
+        $participation = $participationRepository->findOneBy([
+            'passager' => $user,
+            'covoiturage' => $covoiturage
+        ]);
+
+        $form = $this->createForm(DetailFormType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->denyAccessUnlessGranted('ROLE_USER');
+    
+            $participation = new Participation();    
+            $participation->setPassager($user);
+            $participation->setCovoiturage($covoiturage);
+            $participation->setStatut('inscrit');
+
+            $entityManager->persist($participation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_participations');
+
+        }
 
         return $this->render('covoiturage/detail.html.twig', [
             'controller_name' => 'CovoiturageController',
+            'detailForm' => $form,
             'covoiturage' => $covoiturage,
-            'utilisateur' => $user,
+            'user' => $user,
+            'participation' => $participation
         ]);
-
 
     }
 
@@ -64,7 +149,7 @@ final class CovoiturageController extends AbstractController
     {
 
         $covoiturage = $covoiturageRepository->find($id);
-        
+
         /** @var User $user */
         $user = $this->getUser();
 
@@ -89,7 +174,7 @@ final class CovoiturageController extends AbstractController
         return $this->render('covoiturage/index.html.twig', [
             'controller_name' => 'CovoiturageController',
             'covoiturageForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Modifier',
             'villes' => $villes
         ]);
@@ -119,6 +204,7 @@ final class CovoiturageController extends AbstractController
 
             $covoiturage->setLieuDepart($itineraireService->getOrCreateVille($lieu_depart));
             $covoiturage->setLieuArrivee($itineraireService->getOrCreateVille($lieu_arrivee));
+            $covoiturage->setStatut('planifié');
 
             $entityManager->persist($covoiturage);
             $entityManager->flush();
@@ -135,7 +221,7 @@ final class CovoiturageController extends AbstractController
         return $this->render('covoiturage/index.html.twig', [
             'controller_name' => 'CovoiturageController',
             'covoiturageForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Créer',
             'villes' => $villes
         ]);
@@ -166,10 +252,42 @@ final class CovoiturageController extends AbstractController
         return $this->render('covoiturage/list.html.twig', [
             'covoiturageForm' => $form,
             'controller_name' => 'CovoiturageController',
-            'utilisateur' => $user,
+            'user' => $user,
             'covoiturages' => $covoiturages,
             'nouveau' => true,
-            'villes' => $villes
+            'villes' => $villes,
+            'type' => 'Mes propositions de covoiturages'
+        ]);
+
+    }
+
+    #[Route('/participations', name: 'app_participations')]
+    public function participations(
+        Request $request, 
+        ItineraireService $itineraireService, 
+    ): Response
+    {
+
+        $villes = $itineraireService->getVilles();
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(FiltresFormType::class, null, [
+            'ecologique' => false
+        ]);
+        $form->handleRequest($request);
+        
+        $covoiturages = $itineraireService->gatParticipations($user);
+
+        return $this->render('covoiturage/list.html.twig', [
+            'covoiturageForm' => $form,
+            'controller_name' => 'CovoiturageController',
+            'user' => $user,
+            'covoiturages' => $covoiturages,
+            'nouveau' => false,
+            'villes' => $villes,
+            'type' => 'Mes participations à des covoiturages'
         ]);
 
     }
@@ -192,6 +310,9 @@ final class CovoiturageController extends AbstractController
 
         }    
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         $lieu_depart = $itineraireService->getVille($form->get('lieu_depart')->getData());
         $lieu_arrivee = $itineraireService->getVille($form->get('lieu_arrivee')->getData());
         $date_filtre = $form->get('date_filtre')->getData();
@@ -208,20 +329,19 @@ final class CovoiturageController extends AbstractController
             $prix_personne === null ? 0 : $prix_personne,
             $duree_voyage,
             $note_chauffeur,
+            $user
         );
 
         $villes = $itineraireService->getVilles();
 
-        /** @var User $user */
-        $user = $this->getUser();
-
         return $this->render('covoiturage/list.html.twig', [
             'covoiturageForm' => $form,
             'controller_name' => 'CovoiturageController',
-            'utilisateur' => $user,
+            'user' => $user,
             'covoiturages' => $covoiturages,
             'nouveau' => false,
-            'villes' => $villes
+            'villes' => $villes,
+            'type' => 'Covoiturages'
         ]);
 
     }
