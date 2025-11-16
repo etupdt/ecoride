@@ -39,7 +39,7 @@ final class EnergieController extends AbstractController
 
         return $this->render('energie/list.html.twig', [
             'controller_name' => 'EnergieController',
-            'utilisateur' => $user,
+            'user' => $user,
             'energies' => $energies
         ]);
 
@@ -69,7 +69,7 @@ final class EnergieController extends AbstractController
         return $this->render('energie/index.html.twig', [
             'controller_name' => 'EnergieController',
             'energieForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Modifier',
         ]);
 
@@ -99,7 +99,7 @@ final class EnergieController extends AbstractController
         return $this->render('energie/index.html.twig', [
             'controller_name' => 'EnergieController',
             'energieForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Créer',
         ]);
         

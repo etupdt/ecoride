@@ -17,6 +17,7 @@ final class DonneesController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
+        
         $form = $this->createForm(DonneesFormType::class, $user);
         $form->handleRequest($request);
 

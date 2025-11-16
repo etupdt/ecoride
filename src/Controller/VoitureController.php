@@ -38,7 +38,7 @@ final class VoitureController extends AbstractController
 
         return $this->render('voiture/list.html.twig', [
             'controller_name' => 'VoitureController',
-            'utilisateur' => $user,
+            'user' => $user,
             'voitures' => $voitures
         ]);
 
@@ -68,7 +68,7 @@ final class VoitureController extends AbstractController
         return $this->render('voiture/index.html.twig', [
             'controller_name' => 'VoitureController',
             'voitureForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Modifier',
         ]);
 
@@ -100,7 +100,7 @@ final class VoitureController extends AbstractController
         return $this->render('voiture/index.html.twig', [
             'controller_name' => 'VoitureController',
             'voitureForm' => $form,
-            'utilisateur' => $user,
+            'user' => $user,
             'action' => 'Créer',
         ]);
         

@@ -26,6 +26,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
+
+        /** @var User $user */
+        $admin = $this->getUser();
+
         $user = new User();
         
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,21 +42,37 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $user->setRoles(['ROLE_EMPLOYEE']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
+
             $fichier = $form['photo']->getData();
-            $nomFichier = uniqid().'.'.$fichier->guessExtension();
-            $fichier->move("photos/", $nomFichier);
+
+            if ($fichier !== null) {
+                $nomFichier = uniqid().'.'.$fichier->guessExtension();
+                $fichier->move("photos/", $nomFichier);
+            } else {
+                $nomFichier = '0.png';
+            }
+            
             $user->setPhoto($nomFichier);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('accueil');
+            }
+            
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('ecoride@ecoride.com', 'EcoRide'))
-                    ->to((string) $user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                ->from(new Address('ecoride@ecoride.com', 'EcoRide'))
+                ->to((string) $user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -62,6 +82,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'userForm' => $form,
+            'user' => $admin,
         ]);
     }
 

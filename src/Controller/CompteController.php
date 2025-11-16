@@ -17,6 +17,7 @@ final class CompteController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
+        
         $form = $this->createForm(CompteFormType::class, $user);
         $form->handleRequest($request);
 
@@ -36,7 +37,7 @@ final class CompteController extends AbstractController
 
         return $this->render('compte/index.html.twig', [
             'controller_name' => 'CompteController',
-            'utilisateur' => $user,
+            'user' => $user,
             'userForm' => $form,
         ]);
 

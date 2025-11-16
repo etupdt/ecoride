@@ -17,6 +17,11 @@
             {% include 'donnees/donnees.html.twig' %}
             {% include 'compte/compte.html.twig' %}
 
+            <div class="form-group mx-5 my-3">
+                {{ form_row(userForm.photo) }}
+            </div>
+            <img id="compte_image" src="photos/{% if user is defined and user != null %}{{ user.photo }}{% else %}0.png{% endif %}" height="140px"/>
+            
             <div class="form-group form-check mx-5 my-3">
                 {{ form_row(userForm.agreeTerms) }}
             </div>

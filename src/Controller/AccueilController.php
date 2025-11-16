@@ -14,6 +14,7 @@ use App\Form\ItineraireFormType;
 
 final class AccueilController extends AbstractController
 {
+    
     #[Route('/', name: 'racine')]
     #[Route('/accueil', name: 'accueil')]
     public function index(
@@ -47,7 +48,7 @@ final class AccueilController extends AbstractController
         // $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
-            'utilisateur' => $user,
+            'user' => $user,
             'covoiturageForm' => $form,
             'villes' => $villes
         ]);
