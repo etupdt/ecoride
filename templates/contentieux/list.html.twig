@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contentieux{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">Contentieux</h1>
+
+        <div class="participations container row">
+            {% for participation in participations %}      
+                {% include 'contentieux/carte.html.twig' with {'participation': participation} only %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

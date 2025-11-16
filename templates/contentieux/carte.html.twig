@@ -1,0 +1,22 @@
+<div class="carte-participation card mx-2 my-2">
+
+    <div class="card-body">
+
+        <h5 class="card-title">{{ participation.commentaire }}</h5>
+
+        <span>{{ participation.covoiturage.id }}</span>
+        <span>{{ participation.passager.pseudo }}</span>
+        <span>{{ participation.passager.email }}</span>
+        <span>{{ participation.covoiturage.voiture.chauffeur.pseudo }}</span>
+        <span>{{ participation.covoiturage.lieuDepart.libelle }}</span>
+        <span>{{ participation.covoiturage.dateDepart|date("d/m/Y") }}</span>
+        <span>{{ participation.covoiturage.heureDepart|date("H:i") }}</span>
+        <span>{{ participation.covoiturage.lieuArrivee.libelle }}</span>
+        <span>{{ participation.covoiturage.dateArrivee|date("d/m/Y") }}</span>
+        <span>{{ participation.covoiturage.heureArrivee|date("H:i") }}</span>
+
+        <a href="{{ url('app_regle_contentieux', {id: participation.id}) }}" class="btn btn-primary">Regler</a>
+
+    </div>
+
+</div>
