@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\UtilisateurFormType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UtilisateurController extends AbstractController
 {
@@ -94,7 +95,7 @@ final class UtilisateurController extends AbstractController
     
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/utilisateur/c', name: 'app_create_utilisateur')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         
         $utilisateur = new User();
@@ -105,6 +106,16 @@ final class UtilisateurController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var string $plainPassword */
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $plainPassword));
+            $utilisateur->setCredits(20);
+
+            $nomFichier = '0.png';
+            
+            $utilisateur->setPhoto($nomFichier);
 
             $utilisateur->setRoles(['ROLE_EMPLOYEE']);
 

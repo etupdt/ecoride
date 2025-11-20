@@ -14,7 +14,7 @@ Il nécessite également un serveur ou poste de travail ayant docker installé.
 git clone https://github.com/etupdt/ecoride.git
 ```
 
-- Sur la branche main, vous pouvez éditer le fichier **.env** à la racine du répertoire. Facultativement, vous pouvez y modifier les password des bases de données qui sont initialisés par défaut à la valeur "password" (variables DB_PASSWORD pour la base PostgreSql et MONGO_PASSWORD pour la base MongoDb. Vous pouvez également renseigner les paramètres du smtp :
+- Sur la branche main, vous pouvez éditer le fichier **.env** à la racine du répertoire. Facultativement, vous pouvez y modifier les password des bases de données qui sont initialisés par défaut à la valeur "password". Vous pouvez également renseigner les paramètres du smtp :
 ```
 MAIL_HOST=<adresse du smtp (ex : smtp.orange.fr)>
 MAIL_PORT=<port du serveur smtp>
@@ -22,18 +22,27 @@ MAIL_USER=<identifiant auprès du serveur smtp>
 MAIL_PASSWORD=<password auprès du serveur smtp>
 ```
 
+- Lancer, à la racine du répertoire **ecoride**, la commande :
+
+```
+docker compose -f compose_dev.yaml --env-file .env up -d
+```
+
+- Dans un gestionnaire de base de données, executer le script sql d'initialisation :
+
+```
+doc/postgres/init_postgresql.sql
+```
+
 - Lancer, à la racine du répertoire **ecoride**, les commandes :
 
 ```
-docker compose -f docker-compose-back-demo.yml --env-file env.demo.properties up -d
-```
-
-- allez dans le répertoire du projet
-
-```
-cd ecoride
+composer install
+npm update
+php bin/console sass:build
+symfony server:start
 ```
 
 L'environnement est près. Le serveur écoute sur le port 443. 
 L'identifiant de l'administrateur est "admin@test.com" et son mot de passe par défaut est "password"
-L'environnement local comprend également un jeu de données de test et des images copiées au moment de l'installation. Un employé y est également créé "employee@test.com" et un utilisateur "user@test.com". Tout deux ayant le même mot de passe que l'adminitrateur.
+L'environnement local comprend également un jeu de données de test et des images copiées au moment de l'installation. Un employé y est également créé "employee@test.com". Tout deux ayant le même mot de passe que l'adminitrateur.

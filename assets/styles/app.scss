@@ -1,7 +1,7 @@
 
 $primary: (#08603B) !default;
 
-@use "./bootstrap/scss/bootstrap";
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
 
 body {
     background-color: lightgray;
