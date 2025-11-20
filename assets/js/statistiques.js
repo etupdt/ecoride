@@ -34,6 +34,8 @@ async function displayGraphiques() {
             ]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -57,6 +59,8 @@ async function displayGraphiques() {
             ]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true

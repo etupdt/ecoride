@@ -4,36 +4,39 @@
 
 {% block body %}
 <div class="container p-5">
-    <divv class="container row accueil">
-        <div id="road" class="rounded-3 col-4"><img class="w-100" src={{asset('images/road.jpg')}} /></div>
-        <divv class="container col">
-            <div id="presentation" class="rounded-3 col-8 p-5 w-100">
-                <p><b>EcoRide – Le covoiturage écologique et économique</b> 🌱🚗</p>
-                <ul>
-                    <li>Réduisez vos frais, partagez vos trajets, et agissez pour la planète.</li>
-                    <li>Avec EcoRide, trouvez facilement un covoiturage en voiture, alliant <b>écologie, économie et simplicité.</b></li>
-                </ul>
-                <p>Notre ambition : devenir la référence du covoiturage pour les voyageurs soucieux de l’environnement.</p>
-                </p>
-            </div>
 
-            {{ form_start(covoiturageForm) }}
-            
-                <div class="input-group mb-3">
+    {{ form_start(covoiturageForm) }}
+    
+        <div class="d-flex flex-column flex-lg-row mb-3">
 
-                    {% include 'covoiturage/itineraire.html.twig' with {'villes': villes} %}
+            {% include 'covoiturage/itineraire.html.twig' with {'villes': villes} %}
 
-                    <button class="btn btn-outline-primary" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
-                    {# <a href="{{ path('app_itineraires') }}" class="btn btn-primary"><i class="bi bi-search"></i></a> #}
-
-                </div>
-
-            {{ form_end(covoiturageForm) }}
+            <button class="btn btn-outline-primary my-1" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
+            {# <a href="{{ path('app_itineraires') }}" class="btn btn-primary"><i class="bi bi-search"></i></a> #}
 
         </div>
+
+    {{ form_end(covoiturageForm) }}
+
+    <div class="d-flex flex-column-reverse flex-xl-row accueil">
+
+        <div id="road" class="rounded-3 d-none d-xl-flex"><img class="w-100" src={{asset('images/road.jpg')}} /></div>
+
+        <div id="presentation" class="rounded-3 p-5 w-100">
+            <p><b>EcoRide – Le covoiturage écologique et économique</b> 🌱🚗</p>
+            <ul>
+                <li>Réduisez vos frais, partagez vos trajets, et agissez pour la planète.</li>
+                <li>Avec EcoRide, trouvez facilement un covoiturage en voiture, alliant <b>écologie, économie et simplicité.</b></li>
+            </ul>
+            <p>Notre ambition : devenir la référence du covoiturage pour les voyageurs soucieux de l’environnement.</p>
+            </p>
+        </div>
+
     </div>
+
     <div class="container">
         <div id="car" class=""><img class="w-100" src="{{asset('images/small-car.jpg')}}"/></div>
     </div>
+
 </div>
 {% endblock %}

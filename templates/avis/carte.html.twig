@@ -1,7 +1,8 @@
 <div class="carte-avis card mx-2 my-2">
-  <div class="card-body">
-    <h5 class="card-title">{{ avis.avis }}</h5>
-    <a href="{{ url('app_update_avis', {id: avis.id}) }}" class="btn btn-primary">Valider</a>
-    <a href="{{ url('app_delete_avis', {id: avis.id}) }}" class="btn btn-primary">Rejeter</a>
-  </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ avis.pseudo }}</h5>
+        <p class="card-text">{{ avis.avis }}</p>
+        <a href="{{ url('app_valid_avis', {id: avis.id}) }}" class="btn btn-primary">Valider</a>
+        <a href="{{ url('app_invalid_avis', {id: avis.id}) }}" class="btn btn-primary">Rejeter</a>
+    </div>
 </div>

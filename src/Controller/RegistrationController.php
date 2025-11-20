@@ -41,6 +41,7 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $user->setCredits(20);
 
             if ($this->isGranted('ROLE_ADMIN')) {
                 $user->setRoles(['ROLE_EMPLOYEE']);
@@ -67,13 +68,13 @@ class RegistrationController extends AbstractController
             }
             
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                ->from(new Address('ecoride@ecoride.com', 'EcoRide'))
-                ->to((string) $user->getEmail())
-                ->subject('Please Confirm your Email')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            //     (new TemplatedEmail())
+            //     ->from(new Address('ecoride@ecoride.com', 'EcoRide'))
+            //     ->to((string) $user->getEmail())
+            //     ->subject('Please Confirm your Email')
+            //     ->htmlTemplate('registration/confirmation_email.html.twig')
+            // );
 
             // do anything else you need here, like send an email
 

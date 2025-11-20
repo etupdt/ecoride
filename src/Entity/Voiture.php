@@ -46,6 +46,12 @@ class Voiture
     #[ORM\JoinColumn(nullable: false)]
     private ?Energie $energie = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $fumeur = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $animal = null;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -166,6 +172,30 @@ class Voiture
     public function setEnergie(?Energie $energie): static
     {
         $this->energie = $energie;
+
+        return $this;
+    }
+
+    public function isFumeur(): ?bool
+    {
+        return $this->fumeur;
+    }
+
+    public function setFumeur(?bool $fumeur): static
+    {
+        $this->fumeur = $fumeur;
+
+        return $this;
+    }
+
+    public function isAnimal(): ?bool
+    {
+        return $this->animal;
+    }
+
+    public function setAnimal(?bool $animal): static
+    {
+        $this->animal = $animal;
 
         return $this;
     }

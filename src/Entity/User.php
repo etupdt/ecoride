@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`users`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Votre mail est déjà inscrit, connectez vous !')]
 #[UniqueEntity(fields: ['pseudo'], message: 'Votre pseudo est déjà utilisé.')]
@@ -77,6 +77,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'passager', orphanRemoval: true)]
     private Collection $participations;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $credits = null;
 
     public function __construct()
     {
@@ -329,6 +332,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $participation->setPassager(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCredits(): ?int
+    {
+        return $this->credits;
+    }
+
+    public function setCredits(int $credits): static
+    {
+        $this->credits = $credits;
 
         return $this;
     }
