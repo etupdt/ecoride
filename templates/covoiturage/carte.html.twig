@@ -1,0 +1,27 @@
+
+<div class="card mb-3 p-0 carte-covoiturage">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="photos/{{ covoiturage.voiture.chauffeur.photo }}" height="140px"/>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-text">{{ covoiturage.dateDepart|date("d/m/Y") }} : {{ covoiturage.lieuDepart.libelle }} => {{ covoiturage.lieuArrivee.libelle }} à {{ covoiturage.prixPersonne }} crédit(s)</h5>
+                <p class="card-text">{{ covoiturage.voiture.chauffeur.pseudo }} conduit une {{ covoiturage.voiture.modele }} {{ covoiturage.voiture.marque.libelle }} {{ covoiturage.voiture.couleur }} {{ covoiturage.voiture.energie.libelle }}</p>
+                <p class="card-text">Il reste {{ covoiturage.nbPlace }} place(s). Départ {{ covoiturage.heureDepart|date("H:i") }} arrivée le {{ covoiturage.dateArrivee|date("d/m/Y") }} à {{ covoiturage.heureArrivee|date("H:i") }}</p>
+                {% if nouveau %}
+                    {% if covoiturage.statut == 'planifié' %}
+                        <a href="{{ url('app_delete_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Supprimer</a>
+                        <a href="{{ url('app_update_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{ url('app_statut_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Démarrer</a>
+                    {% endif %}
+                    {% if covoiturage.statut == 'démarré' %}
+                        <a href="{{ url('app_statut_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Arrivé à destination</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url('app_detail_covoiturage', {id: covoiturage.id}) }}" class="btn btn-primary">Détail</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

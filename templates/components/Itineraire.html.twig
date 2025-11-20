@@ -1,0 +1,18 @@
+<div{{ attributes }}>
+
+    <form>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Choisissez un itinéraire</span>
+            <span class="input-group-text">Départ</span>
+            <input type="text" class="form-control" name="_depart" aria-label="Départ">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            {% for ville in villes %}
+                <option value="1">{{ ville }}</option>
+            {% endfor %}
+            </select>
+            <span class="input-group-text">arrivée</span>
+            <input type="text" class="form-control" name="_arrivee" aria-label="Arrivée">
+            <button class="btn btn-outline-primary" type="submit" id="button-addon"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voitures{% endblock %}
+
+{% block body %}
+
+    {{ form_errors(covoiturageForm) }}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">Ajoutez un covoiturage</h1>
+
+        {{ form_start(covoiturageForm) }}
+
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.lieu_depart) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.date_depart) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.heure_depart) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.lieu_arrivee) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.date_arrivee) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.heure_arrivee) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.nb_place) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.prix_personne) }}
+            </div>
+            <div class="form-group mx-5 my-3">
+                {{ form_row(covoiturageForm.voiture) }}
+            </div>
+
+            <div class="d-flex mx-5 mt-3 mb-5">
+                <button type="submit" class="btn btn-primary">{{ action }}</button>
+                <a href="{{ url('app_covoiturages') }}" class="btn btn-primary mx-2">Abandonner</a>
+            </div>
+
+            <datalist id="list-ville">
+                {% for ville in villes %}      
+                    <option data="{{ ville.id }}" value="{{ ville.libelle }}"></option>
+                {% endfor %}
+            </datalist>
+
+        {{ form_end(covoiturageForm) }}
+
+    </div>
+
+{% endblock %}

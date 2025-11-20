@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+
+        <h1 class="h3 mb-3 font-weight-normal">Utilisateurs</h1>
+
+        <div class="utilisateurs container row">
+            {% include 'utilisateur/new.html.twig' %}
+            {% for utilisateur in utilisateurs %}      
+                {% include 'utilisateur/carte.html.twig' with {'utilisateur': utilisateur} only %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

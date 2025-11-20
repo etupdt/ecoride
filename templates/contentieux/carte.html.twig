@@ -1,0 +1,18 @@
+<div class="carte-participation card mx-2 my-2">
+
+    <div class="card-body">
+
+        <h5 class="card-title"></h5>
+
+        <p>Covoiturage numéro <b>{{ participation.covoiturage.id }}</b> entre <b>{{ participation.covoiturage.lieuDepart.libelle }}</b> et <b>{{ participation.covoiturage.lieuArrivee.libelle }}</b></p>
+        <p>Départ le {{ participation.covoiturage.dateDepart|date("d/m/Y") }} à {{ participation.covoiturage.heureDepart|date("H:i") }}</p>
+        <p>Arrivée le {{ participation.covoiturage.dateArrivee|date("d/m/Y") }} à {{ participation.covoiturage.heureArrivee|date("H:i") }}</p>
+        <p>Le passager <b>{{ participation.passager.pseudo }}</b> mail <b>{{ participation.passager.email }}</b> dit : {{ participation.commentaire }}</p>
+        <p>Le chauffeur <b>{{ participation.covoiturage.voiture.chauffeur.pseudo }}</b> mail <b>{{ participation.covoiturage.voiture.chauffeur.email }}</b></p>
+
+        <a href="{{ url('app_regle_contentieux', {id: participation.id}) }}" class="btn btn-primary">Regler le chauffeur</a>
+        <a href="{{ url('app_rembourser_contentieux', {id: participation.id}) }}" class="btn btn-primary">Rembourser le passager</a>
+
+    </div>
+
+</div>

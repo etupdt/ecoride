@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container my-5">
+    {{ form_start(userForm) }}
+
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous inscrire</h1>
+
+        {{ form_start(userForm) }}
+
+            {% include 'donnees/donnees.html.twig' %}
+            {% include 'compte/compte.html.twig' %}
+
+            <div class="form-group mx-5 my-3">
+                {{ form_row(userForm.photo) }}
+            </div>
+            <img id="compte_image" src="photos/{% if user is defined and user != null %}{{ user.photo }}{% else %}0.png{% endif %}" height="140px"/>
+            
+            <div class="form-group form-check mx-5 my-3">
+                {{ form_row(userForm.agreeTerms) }}
+            </div>
+
+            <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+            <button type="submit" class="btn btn-primary mx-5 mt-3 mb-5">Inscription</button>
+
+        {{ form_end(userForm) }}
+
+        <p class="mx-5 my-3">
+            <a href="{{ path('app_login') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Déjà inscrit ?</a>
+        </p>
+
+    </div>
+
+{% endblock %}

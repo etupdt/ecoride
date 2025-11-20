@@ -1,0 +1,32 @@
+
+$primary: (#08603B) !default;
+
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
+
+body {
+    background-color: lightgray;
+}
+
+.login-icon {
+    font-size: 40px;
+    color: $primary;
+}
+
+.login-image {
+    height: 40px;
+    border-radius: 50%;
+}
+
+#road {
+
+    border-radius: 10px;
+
+}
+
+#car {
+
+    // transform: translate(0px, -150px);
+    // z-index : 1;
+    border-radius: 10px;
+
+}
