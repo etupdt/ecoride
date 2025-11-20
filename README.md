@@ -28,6 +28,12 @@ MAIL_PASSWORD=<password auprès du serveur smtp>
 docker compose -f compose_dev.yaml --env-file .env up -d
 ```
 
+- Dans un gestionnaire de base de données, executer le script sql d'initialisation :
+
+```
+doc/postgres/init_postgresql.sql
+```
+
 - Lancer, à la racine du répertoire **ecoride**, les commandes :
 
 ```
