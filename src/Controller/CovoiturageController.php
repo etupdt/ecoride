@@ -16,6 +16,8 @@ use App\Form\CovoiturageFormType;
 use App\Form\FiltresFormType;
 use App\Form\ItineraireFormType;
 use App\Form\DetailFormType;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Document\Avis;
 
 final class CovoiturageController extends AbstractController
 {
@@ -25,7 +27,14 @@ final class CovoiturageController extends AbstractController
     {
 
         $covoiturage = $covoiturageRepository->find($id);
-        
+
+        $chauffeurCredits = 0;
+
+        foreach($covoiturage->getParticipatione() as $participation) {
+            $participation->getPassager()->setCredits($participation->getPassager()->getCredits() + $covoiturage->getPrixPersonne());
+            $entityManager->persist($participation);
+        }
+
         $entityManager->remove($covoiturage);
         $entityManager->flush();
 
@@ -96,6 +105,7 @@ final class CovoiturageController extends AbstractController
         EntityManagerInterface $entityManager,
         CovoiturageRepository $covoiturageRepository, 
         ParticipationRepository $participationRepository, 
+        DocumentManager $documentManager,
     ): Response
     {
 
@@ -109,6 +119,11 @@ final class CovoiturageController extends AbstractController
             'covoiturage' => $covoiturage
         ]);
 
+        $avis = $documentManager->getRepository(Avis::class)->findBy([
+            'chauffeur' => $covoiturage->getVoiture()->getChauffeur()->getId()
+        ]);
+        
+
         $form = $this->createForm(DetailFormType::class);
         $form->handleRequest($request);
         
@@ -121,7 +136,13 @@ final class CovoiturageController extends AbstractController
             $participation->setCovoiturage($covoiturage);
             $participation->setStatut('inscrit');
 
+            $user->setCredits($user->getCredits() - $covoiturage->getPrixpersonne());            
+            
+            $covoiturage->setNbPlace($covoiturage->getNbPlace() - 1);
+
             $entityManager->persist($participation);
+            $entityManager->persist($user);
+            $entityManager->persist($covoiturage);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_participations');
@@ -133,7 +154,8 @@ final class CovoiturageController extends AbstractController
             'detailForm' => $form,
             'covoiturage' => $covoiturage,
             'user' => $user,
-            'participation' => $participation
+            'participation' => $participation,
+            'avis' => $avis
         ]);
 
     }
@@ -256,7 +278,8 @@ final class CovoiturageController extends AbstractController
             'covoiturages' => $covoiturages,
             'nouveau' => true,
             'villes' => $villes,
-            'type' => 'Mes propositions de covoiturages'
+            'type' => 'Mes propositions de covoiturages',
+            'date_depart' => null
         ]);
 
     }
@@ -287,7 +310,8 @@ final class CovoiturageController extends AbstractController
             'covoiturages' => $covoiturages,
             'nouveau' => false,
             'villes' => $villes,
-            'type' => 'Mes participations à des covoiturages'
+            'type' => 'Mes participations à des covoiturages',
+            'date_depart' => null
         ]);
 
     }
@@ -306,10 +330,6 @@ final class CovoiturageController extends AbstractController
         ]);
         $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) {
-
-        }    
-
         /** @var User $user */
         $user = $this->getUser();
 
@@ -341,7 +361,8 @@ final class CovoiturageController extends AbstractController
             'covoiturages' => $covoiturages,
             'nouveau' => false,
             'villes' => $villes,
-            'type' => 'Covoiturages'
+            'type' => 'Covoiturages',
+            'date_depart' => $date_filtre
         ]);
 
     }
