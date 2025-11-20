@@ -27,6 +27,9 @@ class Avis
     #[MongoDB\Field(type: 'int')]
     protected int $note;
 
+    #[MongoDB\Field(type: 'string')]
+    protected string $pseudo;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -88,6 +91,18 @@ class Avis
     public function setNote(int $note): static
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }

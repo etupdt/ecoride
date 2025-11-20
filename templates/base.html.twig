@@ -34,7 +34,7 @@
                             <a class="nav-link" href="{{ path('app_itineraires') }}">Covoiturage</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                         </li>
                         {% if is_granted('ROLE_EMPLOYEE') %}
                             <li class="nav-item dropdown">
@@ -73,11 +73,11 @@
                             <li><a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a></li>
                         </ul>
                     </div>
-                    <span class="mx-3">{% if user != null %}{{ user.email }}{% endif %}</span>
+                    <span class="d-none d-lg-block mx-3">{% if user != null %}{{ user.email }}{% endif %}</span>
                 {% endif %}
             </div>
         </nav>
-        <div class="container-fluid">
+        <div class="container-fluid p-1">
             {% block body %}{% endblock %}
         </div>
     </body>

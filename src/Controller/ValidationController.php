@@ -44,9 +44,14 @@ final class ValidationController extends AbstractController
             $participation->setCommentaire($form->get('commentaire')->getData());
 
             $chauffeur = $covoiturage->getVoiture()->getChauffeur();
+            
+            if ($form->get('validation')->getData() === 'Ok') {
+                $chauffeur->setCredits($chauffeur->getCredits() + $covoiturage->getPrixPersonne());
+            }
 
             $avis = new Avis();
             $avis->setChauffeur($chauffeur->getId());
+            $avis->setPseudo($user->getPseudo());
             $avis->setAvis($form->get('avis')->getData());
             $avis->setModere(false);
             $avis->setValide(false);
@@ -116,7 +121,7 @@ final class ValidationController extends AbstractController
     {
 
         $kos = $participationRepository->findBy([
-            'statut' => 'ko'
+            'statut' => 'Ko'
         ]);
 
         /** @var User $user */
@@ -141,6 +146,38 @@ final class ValidationController extends AbstractController
         $contentieux = $participationRepository->find($id);
         
         $contentieux->setStatut('Ok');
+        $covoiturage = $contentieux->getCovoiturage();
+        $chauffeur = $covoiturage->getVoiture()->getChauffeur();
+
+        $chauffeur->setCredits($chauffeur->getCredits() + $covoiturage->getPrixPersonne() - 2);
+        $entityManager->persist($chauffeur);
+
+        $entityManager->persist($contentieux);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_contentieux');
+
+    }
+    
+    #[Route('/contentieux/r/{id}', name: 'app_rembourser_contentieux')]
+    public function rembourser(
+        int $id, 
+        ParticipationRepository $participationRepository,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+
+        $contentieux = $participationRepository->find($id);
+        $covoiturage = $contentieux->getCovoiturage();
+        $chauffeur = $covoiturage->getVoiture()->getChauffeur();
+        $passager = $contentieux->getPassager();
+
+        $contentieux->setStatut('Ko réglé');
+
+        $chauffeur->setCredits($chauffeur->getCredits() - 2);
+        $entityManager->persist($chauffeur);
+        $passager->setCredits($passager->getCredits() + $covoiturage->getPrixPersonne());
+        $entityManager->persist($passager);
 
         $entityManager->persist($contentieux);
         $entityManager->flush();

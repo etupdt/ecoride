@@ -21,13 +21,13 @@ class ValidationFormType extends AbstractType
             ])
             ->add('validation', ChoiceType::class, [
                 'choices'  => [
-                    'Le voyage s\'est bien passé' => 'ok',
-                    'Le voyage s\'est mal passé' => 'ko',
+                    'Le voyage s\'est bien passé' => 'Ok',
+                    'Le voyage s\'est mal passé' => 'Ko',
                 ],
             ])
             ->add('commentaire', TextareaType::class, [
                 'required' => true,
-                'disabled' => true,
+                // 'disabled' => true,
                 'attr' => ['class' => 'tinymce'],
             ])
         ;
