@@ -92,3 +92,7 @@ ALTER SEQUENCE participation_seq OWNED BY participation.id;
 INSERT INTO users
 (roles, email, "password", "pseudo", nom, prenom, telephone, adresse, date_naissance, photo, is_verified, note, credits)
 VALUES('["ROLE_ADMIN"]', 'admin@test.com', '$2y$13$BQbmSs93.tlthbIlth3MluUNBlelfzn99p8d8K3rM.rRKW.yFhUbi', 'chef', 'Duride', 'Joe', '564546456', 'ljqhedflked', '1998-12-12', '0.png',  true, null, 20);
+
+INSERT INTO users
+(roles, email, "password", "pseudo", nom, prenom, telephone, adresse, date_naissance, photo, is_verified, note, credits)
+VALUES('["ROLE_EMPLOYEE"]', 'employee@test.com', '$2y$13$BQbmSs93.tlthbIlth3MluUNBlelfzn99p8d8K3rM.rRKW.yFhUbi', 'employee', 'Empl', 'Joe', '564546456', 'ljqhedflked', '1998-12-12', '0.png',  true, null, 20);
