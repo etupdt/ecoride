@@ -73,16 +73,18 @@ class CovoiturageRepository extends ServiceEntityRepository
             ->Where('c.lieu_depart = :lieu_depart or :lieu_depart = 0')
             ->andWhere('c.lieu_arrivee = :lieu_arrivee or :lieu_arrivee = 0')
 
-            ->andWhere('c.date_depart = :date_depart or :date_depart = \'0001-01-01\'')
+            ->andWhere('c.date_depart >= :date_depart or :date_depart = \'0001-01-01\'')
 
             ->andWhere(':ecologique = false or e.ecologique = true')
             ->andWhere(':prix_personne = 0 or c.prix_personne <= :prix_personne')
             ->andWhere(':duree_voyage = \'00:00\' or (c.date_arrivee + c.heure_arrivee) - (c.date_depart + c.heure_depart) <= :duree_voyage')
-            ->andWhere(':note_chauffeur = -1 or u.note <= :note_chauffeur')
+            ->andWhere(':note_chauffeur = -1 or u.note >= :note_chauffeur')
 
             ->andWhere(':user = 0 or v.chauffeur <> :user')
 
-            ->andWhere()
+            ->andWhere('c.nb_place > 0')
+
+            ->orderBy('c.date_depart', 'ASC')
 
             ->setParameter('lieu_depart', $depart === null ? 0 : $depart->getId())
             ->setParameter('lieu_arrivee', $arrivee === null ? 0 : $arrivee->getId())
@@ -91,13 +93,13 @@ class CovoiturageRepository extends ServiceEntityRepository
             ->setParameter('ecologique', $ecologique)
             ->setParameter('prix_personne', $prix_personne)
             ->setParameter('duree_voyage', $duree_voyage)
-            ->setParameter('note_chauffeur', $note_chauffeur)
+            ->setParameter('note_chauffeur', $note_chauffeur === null ? -1 : $note_chauffeur)
 
             ->setParameter('user', $user === null ? 0 : $user->getId());
 
         return $covoiturages
             ->andWhere($covoiturages->expr()->not($covoiturages->expr()->exists($participations->andWhere('p.covoiturage = c.id'))))
-            ->setMaxResults(10)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
 

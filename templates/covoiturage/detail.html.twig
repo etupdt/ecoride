@@ -5,14 +5,14 @@
 
 {% block body %}
 
-    <div class="container my-5">
+    <div class="container my-5 p-0">
 
         <h1>{{ covoiturage.dateDepart|format_datetime('full', 'none', locale: 'en') }}</h1>
         <p id="covoiturage_id" class="card-text">{{ covoiturage.id  }}</p>
 
-        <div class="d-flex">
+        <div class="d-flex flex-column flex-lg-row">
 
-            <div class="col-8 p-4">
+            <div class="col-12 col-lg-8 p-0 p-lg-4">
 
                 <div class="card mb-3 p-0">
                     <div class="card-body">
@@ -43,14 +43,18 @@
                         <hr>
                         <p class="card-text">{{ covoiturage.voiture.modele }} {{ covoiturage.voiture.marque.libelle }} {{ covoiturage.voiture.couleur }} {{ covoiturage.voiture.energie.libelle }}</p>
                         <p class="card-text">Il reste {{ covoiturage.nbPlace }} place(s)</p>
-                        <input type="checkbox" id="ecologique" name="ecologique" {% if covoiturage.voiture.energie.ecologique %}checked{% endif %} disabled />
+                        <input type="checkbox" class="form-check-input" id="ecologique" name="ecologique" {% if covoiturage.voiture.energie.ecologique %}checked{% endif %} disabled />
                         <label for="ecologique">Ecologique</label>
+                        <input type="checkbox" class="form-check-input" id="fumeur" name="fumeur" {% if covoiturage.voiture.fumeur %}checked{% endif %} disabled />
+                        <label for="fumeur">Fumeur</label>
+                        <input type="checkbox" class="form-check-input" id="animal" name="animal" {% if covoiturage.voiture.animal %}checked{% endif %} disabled />
+                        <label for="animal">Animaux</label>
                     </div>
                 </div>
 
             </div>
 
-            <div class="d-flex flex-column col-4 p-4">
+            <div class="d-flex flex-column col-12 col-lg-4 p-0 p-lg-4">
 
                 <div class="card mb-3 p-0">
                     <div class="card-body">
@@ -88,8 +92,8 @@
                         {% endif %}
                     {% endif %}
                 {% else %}
-                    {% if user is not defined or user != covoiturage.voiture.chauffeur %}
-                        <button id="bouton_action" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalParticiper">
+                    {% if user is not defined or user == null or (user != covoiturage.voiture.chauffeur and user.credits >= covoiturage.prixPersonne) %}
+                        <button id="bouton_action" type="button" class="btn btn-primary my-1" data-bs-toggle="modal" data-bs-target="#modalParticiper">
                             participer
                         </button>
                     {% endif %}
@@ -99,7 +103,15 @@
 
         </div>
 
-        <a href="{{ url('app_itineraires') }}" class="btn btn-primary">Retour</a>
+        <h4>Avis</h4>
+
+        <div>
+            {% for avi in avis %}      
+                {% include 'avis/avis.html.twig' with {'avis': avi, 'covoiturage': covoiturage} only %}
+            {% endfor %}
+        </div>
+
+        <a href="{{ url('app_itineraires') }}" class="btn btn-primary col-12 col-lg-1 my-1">Retour</a>
 
     </div>
 

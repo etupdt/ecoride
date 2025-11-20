@@ -4,28 +4,27 @@
 
 {% block body %}
 
-    <div class="container my-5">
+    <div class="container my-5 p-0">
 
         <h1 class="h3 mb-3 font-weight-normal">{{ type }}</h1>
 
         {{ form_start(covoiturageForm) }}
             
-            <div class="container p-0">
+            <div class="p-0">
 
-                <div class="input-group mb-3
-                0">
+                <div class="d-flex flex-column flex-lg-row mb-3">
 
                     {% include 'covoiturage/itineraire.html.twig' with {'villes': villes} %}
 
-                    <button class="btn btn-outline-primary" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-outline-primary my-1" type="submit" id="itineraire-submit"><i class="bi bi-search"></i></button>
 
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex flex-column-reverse flex-lg-row">
 
                     {% if not nouveau %}
 
-                        <div class="p-3 col-3">
+                        <div class="p-0 p-lg-3 col-12 col-lg-3">
                         
                             {% include 'covoiturage/filtres.html.twig' %}
 
@@ -33,14 +32,16 @@
 
                     {% endif %}
 
-                    <div class="p-3 {% if nouveau %}col-12{% else %}col-9{% endif %}">
+                    <div class="p-0 p-lg-3 {% if nouveau %}col-12{% else %}col-12 col-lg-9{% endif %}">
 
                         {% if nouveau %}
                             {% include 'covoiturage/new.html.twig' %}
                         {% endif %}
 
                         {% for covoiturage in covoiturages %}
-                            {% include 'covoiturage/carte.html.twig' %}
+                            {% if date_depart == null or covoiturage.dateDepart|date("Y-m-d") == date_depart|date('Y-m-d') or loop.index == 0 %}
+                                {% include 'covoiturage/carte.html.twig' %}
+                            {% endif %}
                         {% endfor %}
 
                     </div>
