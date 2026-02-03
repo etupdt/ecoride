@@ -9,6 +9,9 @@ services:
       args:
         HTTP_APACHE_PORT: 8080
         HTTPS_APACHE_PORT: 9443
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+        POSTGRES_DB: ${DB_DATABASE}
     env_file: ./env.ecoride
     restart: always
     ports:
@@ -27,10 +30,6 @@ services:
     env_file: ./env.properties
     restart: always
     shm_size: 128mb
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - ecf-ecoride-postgres-prod:/var/lib/postgresql/data
       - ./prod/pgecoride:/docker-entrypoint-initdb.d

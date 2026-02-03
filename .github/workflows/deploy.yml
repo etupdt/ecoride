@@ -36,11 +36,12 @@ jobs:
           echo "DDL_AUTO=none" >> env.properties
           echo "SHOW_SQL=true" >> env.properties
 
-          echo "DB_URL=postgres" >> env.properties
-          echo "DB_PORT=5432" >> env.properties
-          echo "DB_DATABASE=${{ vars.DB_DATABASE }}" >> env.properties
-          echo "DB_USER=${{ secrets.DB_USER }}" >> env.properties
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env.properties
+          echo "POSTGRESQL_SERVER=ppostgres" >> env.properties
+          echo "POSTGRESQL_PORT=5432" >> env.properties
+          echo "POSTGRES_DB=${{ vars.POSTGRES_DB }}" >> env.properties
+          echo "POSTGRES_USER=${{ vars.POSTGRES_USER }}" >> env.properties
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> env.properties
+          echo "POSTGRES_VERSION=${{ vars.POSTGRES_VERSION }}" >> env.properties
 
           echo "AUTO_COMMIT=true" >> env.properties
           
@@ -57,7 +58,7 @@ jobs:
 
           echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> env.properties
           echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> env.properties
-          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> env.properties
+          echo "MONGO_USER=${{ vars.MONGO_USER }}" >> env.properties
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> env.properties
           echo "MONGO_DB=${{ vars.MONGO_DB }}" >> env.properties
           echo "MONGO_URL=mongodb://${{ secrets.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mongodb:27017/${{ vars.MONGO_DB }}" >> env.properties
