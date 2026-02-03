@@ -7,11 +7,14 @@ services:
     build:
       context: .
       args:
-        HTTP_APACHE_PORT: 8080
-        HTTPS_APACHE_PORT: 9443
-        POSTGRES_USER: ${DB_USER}
-        POSTGRES_PASSWORD: ${DB_PASSWORD}
-        POSTGRES_DB: ${DB_DATABASE}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_VERSION: ${POSTGRES_VERSION}
+        POSTGRESQL_SERVER: ${POSTGRESQL_SERVER}
+        POSTGRESQL_PORT: ${POSTGRESQL_PORT}
+        MONGO_DB: ${MONGO_DB}
+        MONGO_URL: ${MONGO_URL}
     env_file: ./env.properties
     restart: always
     ports:
