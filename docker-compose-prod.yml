@@ -12,7 +12,7 @@ services:
         POSTGRES_USER: ${DB_USER}
         POSTGRES_PASSWORD: ${DB_PASSWORD}
         POSTGRES_DB: ${DB_DATABASE}
-    env_file: ./env.ecoride
+    env_file: ./env.properties
     restart: always
     ports:
       - "80:8080"
