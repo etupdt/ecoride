@@ -1,0 +1,48 @@
+version: "3.1"
+services:
+  symfony-postgres:
+    container_name: ecoride
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
+    build:
+      context: .
+      args:
+        HTTP_APACHE_PORT: 8080
+        HTTPS_APACHE_PORT: 9443
+    env_file: ./env.ecoride
+    restart: always
+    ports:
+      - "80:8080"
+      - "443:9443"
+    volumes:
+      - /var/www/html
+      - /home/ubuntu/apache/ssl:/etc/apache2/ssl/back
+      - /home/ubuntu/apache/sites-available:/etc/apache2/sites-available/back
+    depends_on:
+      - pgecoride
+      - mgecoride
+
+  pgecoride:
+    image: postgres:14-alpine
+    env_file: ./env.properties
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - ecf-ecoride-postgres-prod:/var/lib/postgresql/data
+      - ./prod/pgecoride:/docker-entrypoint-initdb.d
+
+  mgecoride:
+    image: mongo:8.0.0-rc8-jammy
+    env_file: ./env.properties
+    restart: always
+    volumes:
+      - ecf-ecoride-mongodb-prod:/etc/mongo
+      - ./prod/mgecoride:/docker-entrypoint-initdb.d
+
+volumes:
+  ecf-ecoride-postgres-prod:
+  ecf-ecoride-mongodb-prod:
