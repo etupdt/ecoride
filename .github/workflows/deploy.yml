@@ -30,6 +30,7 @@ jobs:
       - name: Create env.properties and certificate files
         run: |
 
+          touch ./tls
           echo -e "${{ secrets.SECRET_KEY }}" > ./tls/server.key
           echo -e "${{ secrets.SECRET_CRT }}" > ./tls/server.crt
 
@@ -86,6 +87,6 @@ jobs:
           sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no env.properties ${USER}@${HOST}:./
           sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no -r ./init/prod ${USER}@${HOST}:.
           sshpass -p $PASSWORD scp -o StrictHostKeyChecking=no ./docker-compose-prod.yml ${USER}@${HOST}:.
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "echo ${{ secrets.GITHUB_TOKEN }} | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin"
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "sudo docker compose -f docker-compose-back-prod.yml pull"
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "sudo docker compose -f docker-compose-back-prod.yml up -d"
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "echo ${{ secrets.GITHUBTOKEN }} | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "sudo docker compose -f docker-compose-prod.yml pull"
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no ${USER}@${HOST} "sudo docker compose -f docker-compose-prod.yml up -d"
