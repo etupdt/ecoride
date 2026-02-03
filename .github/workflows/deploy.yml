@@ -30,7 +30,6 @@ jobs:
       - name: Create env.properties and certificate files
         run: |
 
-          touch ./tls/server.p12
           echo -e "${{ secrets.SECRET_KEY }}" > ./tls/server.key
           echo -e "${{ secrets.SECRET_CRT }}" > ./tls/server.crt
 
