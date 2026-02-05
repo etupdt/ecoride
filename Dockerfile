@@ -48,6 +48,8 @@ WORKDIR /var/www/html/config/ssl/back
 
 COPY ./ .
 
+RUN mkdir -p /etc/apache2/sites-available/back
+
 WORKDIR /etc/apache2/sites-available/back
 
 COPY ./init/prod/httpd-vhosts.conf .
