@@ -84,7 +84,7 @@ jobs:
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}"
             POSTGRES_VERSION=${{ vars.POSTGRES_VERSION }}"
             MONGO_DB=${{ vars.MONGO_DB }}"
-            MONGO_URL=mongodb://${{ vars.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mgecoride:27017/${{ vars.MONGO_DB }}" 
+            MONGO_URL=mongodb://${{ vars.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mgecoride:27017" 
 
       - name: Deploy using docker-compose
         run: |
