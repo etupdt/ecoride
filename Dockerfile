@@ -73,7 +73,7 @@ RUN a2enmod headers
 RUN node -v
 RUN npm -v
 
-RUN composer update --no-dev --optimize-autoloader
+# RUN composer update --no-dev --optimize-autoloader
 RUN npm update
 RUN php bin/console sass:build
 RUN php bin/console asset-map:compile
