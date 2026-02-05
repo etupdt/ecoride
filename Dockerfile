@@ -61,7 +61,7 @@ WORKDIR /var/www/html/ecoride
 
 COPY --chown=www-data:www-data ./ ./
 
-RUN echo "Include /etc/apache2/sites-available/back/httpd-vhosts.conf" | tee -a /etc/apache2/sites-available/000-default.conf > /dev/null
+# RUN echo "Include /etc/apache2/sites-available/back/httpd-vhosts.conf" | tee -a /etc/apache2/sites-available/000-default.conf > /dev/null
 RUN sed -i 's/;extension=pdo_pgsql/extension=pdo_pgsql/g' /usr/local/etc/php/php.ini-production
 RUN sed -i 's/;extension=pdo_pgsql/extension=pdo_pgsql/g' /usr/local/etc/php/php.ini-development
 
