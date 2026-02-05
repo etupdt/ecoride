@@ -61,7 +61,7 @@ jobs:
           echo "MONGO_USER=${{ vars.MONGO_USER }}" >> env.properties
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> env.properties
           echo "MONGO_DB=${{ vars.MONGO_DB }}" >> env.properties
-          echo "MONGO_URL=mongodb://${{ secrets.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mongodb:27017/${{ vars.MONGO_DB }}" >> env.properties
+          echo "MONGO_URL=mongodb://${{ vars.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mongodb:27017/${{ vars.MONGO_DB }}" >> env.properties
  
       - name: Log in to the Container registry
         uses: docker/login-action@v1
