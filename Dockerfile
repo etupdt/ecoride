@@ -50,7 +50,8 @@ COPY ./ .
 
 WORKDIR /etc/apache2/sites-available/back
 
-COPY ./ .
+COPY ./init/prod/httpd-vhosts.conf .
+# COPY ./ .
 
 RUN mkdir -p /var/www/html/ecoride
 
@@ -71,10 +72,10 @@ RUN a2enmod headers
 RUN node -v
 RUN npm -v
 
-# RUN composer update --no-dev --optimize-autoloader
+RUN composer update --no-dev --optimize-autoloader
 # RUN npm update
-# RUN php bin/console sass:build
-# RUN php bin/console asset-map:compile
+RUN php bin/console sass:build
+RUN php bin/console asset-map:compile
 
 RUN chown -R www-data:www-data /var/www/html
 

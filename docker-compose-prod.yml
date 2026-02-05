@@ -22,8 +22,8 @@ services:
       - "443:9443"
     volumes:
       - /var/www/html
-      - /home/ubuntu/apache/ssl:/etc/apache2/ssl/back
-      - /home/ubuntu/apache/sites-available:/etc/apache2/sites-available/back
+      - /etc/ssl/ecoride:/etc/apache2/ssl/back
+      - /etc/apache2/sites-available/back
     depends_on:
       - pgecoride
       - mgecoride
