@@ -58,8 +58,6 @@ WORKDIR /var/www/html/ecoride
 
 COPY --chown=www-data:www-data ./ ./
 
-# RUN composer update --no-dev --optimize-autoloader
-
 RUN echo "Include /etc/apache2/sites-available/back/httpd-vhosts.conf" | tee -a /etc/apache2/sites-available/000-default.conf > /dev/null
 RUN sed -i 's/;extension=pdo_pgsql/extension=pdo_pgsql/g' /usr/local/etc/php/php.ini-production
 RUN sed -i 's/;extension=pdo_pgsql/extension=pdo_pgsql/g' /usr/local/etc/php/php.ini-development
@@ -74,9 +72,9 @@ RUN node -v
 RUN npm -v
 
 # RUN composer update --no-dev --optimize-autoloader
-RUN npm update
-RUN php bin/console sass:build
-RUN php bin/console asset-map:compile
+# RUN npm update
+# RUN php bin/console sass:build
+# RUN php bin/console asset-map:compile
 
 RUN chown -R www-data:www-data /var/www/html
 
