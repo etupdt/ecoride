@@ -77,14 +77,16 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
-            POSTGRESQL_SERVER=pgecoride" 
-            POSTGRESQL_PORT=5432" 
-            POSTGRES_DB=${{ vars.POSTGRES_DB }}" 
-            POSTGRES_USER=${{ vars.POSTGRES_USER }}"
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}"
-            POSTGRES_VERSION=${{ vars.POSTGRES_VERSION }}"
-            MONGO_DB=${{ vars.MONGO_DB }}"
-            MONGO_URL=mongodb://${{ vars.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mgecoride:27017" 
+            POSTGRESQL_SERVER=pgecoride
+            POSTGRESQL_PORT=5432
+            POSTGRES_DB=${{ vars.POSTGRES_DB }}
+            POSTGRES_USER=${{ vars.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_VERSION=${{ vars.POSTGRES_VERSION }}
+            MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+            MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+            MONGO_DB=${{ vars.MONGO_DB }}
+            MONGO_URL=mongodb://${{ vars.MONGO_USER }}:${{ secrets.MONGO_PASSWORD }}@mgecoride:27017
 
       - name: Deploy using docker-compose
         run: |
