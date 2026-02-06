@@ -44,6 +44,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN export COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+WORKDIR /var/log/apache2/ecoride/
+
 WORKDIR /var/www/html/config/ssl/back
 
 COPY ./ .
