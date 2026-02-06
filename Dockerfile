@@ -56,7 +56,7 @@ COPY ./init/prod/httpd-vhosts.conf .
 # COPY ./ .
 
 RUN mkdir -p /var/www/html/ecoride
-
+ 
 WORKDIR /var/www/html/ecoride
 
 COPY --chown=www-data:www-data ./ ./
