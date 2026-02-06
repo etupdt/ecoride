@@ -1,20 +1,21 @@
 version: "3.1"
 services:
-  symfony-postgres:
+  symfony:
+    image: ghcr.io/etupdt/ecoride:latest
     container_name: ecoride
     # stdin_open: true # docker run -i
     # tty: true        # docker run -t
-    build:
-      context: .
-      args:
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_VERSION: ${POSTGRES_VERSION}
-        POSTGRESQL_SERVER: ${POSTGRESQL_SERVER}
-        POSTGRESQL_PORT: ${POSTGRESQL_PORT}
-        MONGO_DB: ${MONGO_DB}
-        MONGO_URL: ${MONGO_URL}
+    # build:
+    #   context: .
+    #   args:
+    #     POSTGRES_USER: ${POSTGRES_USER}
+    #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    #     POSTGRES_DB: ${POSTGRES_DB}
+    #     POSTGRES_VERSION: ${POSTGRES_VERSION}
+    #     POSTGRESQL_SERVER: ${POSTGRESQL_SERVER}
+    #     POSTGRESQL_PORT: ${POSTGRESQL_PORT}
+    #     MONGO_DB: ${MONGO_DB}
+    #     MONGO_URL: ${MONGO_URL}
     env_file: ./env.properties
     restart: always
     ports:
