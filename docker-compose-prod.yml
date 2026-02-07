@@ -36,7 +36,7 @@ services:
     shm_size: 128mb
     volumes:
       - ecf-ecoride-postgres-prod:/var/lib/postgresql/data
-      - ./prod/pgecoride:/docker-entrypoint-initdb.d
+      - ./prod/postgres:/docker-entrypoint-initdb.d
 
   mgecoride:
     image: mongo:8.0.0-rc8-jammy
@@ -44,7 +44,7 @@ services:
     restart: always
     volumes:
       - ecf-ecoride-mongodb-prod:/etc/mongo
-      - ./prod/mgecoride:/docker-entrypoint-initdb.d
+      - ./prod/mongodb:/docker-entrypoint-initdb.d
 
 volumes:
   ecf-ecoride-postgres-prod:
